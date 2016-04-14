@@ -20,6 +20,7 @@ public class CLIENTE extends javax.swing.JInternalFrame {
      */
     CONEXION conect;
     int a; //de activo
+    boolean valido;//Para validar si la info es correcta
     public CLIENTE() {
         initComponents();
         conect = new CONEXION();
@@ -28,6 +29,7 @@ public class CLIENTE extends javax.swing.JInternalFrame {
         a=1;
         updateGrid("Select * from clientes WHERE activo='"+this.a+"';");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        valido=false;
         
     }
     
@@ -83,6 +85,20 @@ public class CLIENTE extends javax.swing.JInternalFrame {
             this.telefono.setText("");
             this.email.setText("");
             this.activo.setSelected(false);
+        }
+        private boolean checkDatos(){
+            try{
+            int edad = Integer.parseInt(this.edad.getText());
+            if(edad < 18 || edad > 135){
+                return false;
+            } else{
+                return true;
+            }
+            } catch(NumberFormatException n){
+                JOptionPane.showMessageDialog(null,"Edad inválida. Favor ingrese un número");
+                return false;
+            }
+            
         }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -366,10 +382,19 @@ public class CLIENTE extends javax.swing.JInternalFrame {
             int edad = Integer.parseInt(this.edad.getText());
             if(edad < 18){
                 JOptionPane.showMessageDialog(null, "Edad inválida. El cliente debe ser mayor de 18 años!");
-                this.edad.setText("");
+                this.valido=false;
+                this.edad.requestFocus();
+            } else if(edad > 135){
+                JOptionPane.showMessageDialog(null, "Edad inválida. Los clientes no suelen vivir tanto!");
+                this.valido=false;
+                this.edad.requestFocus();
+            } else{
+                this.valido=true;
             }
         } catch(NumberFormatException n){
             JOptionPane.showMessageDialog(null,"Edad inválida. Favor ingrese un número");
+            this.valido=false;
+            this.edad.requestFocus();
         }
     }//GEN-LAST:event_edadFocusLost
 
@@ -400,46 +425,59 @@ public class CLIENTE extends javax.swing.JInternalFrame {
 
     private void saveDCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveDCActionPerformed
         // TODO add your handling code here:
-        conect.CONECTAR();
-        int activo = this.activo.isSelected()?1:0;
-        String sexo = this.sexo.getSelectedIndex()==0?"1":"0";
-        if(this.tDatos.getSelectedRow()==-1){
-            if(!idcliente.getText().equals("")&&!nombre.getText().equals("") && !telefono.getText().equals("") && !email.getText().equals("") && !edad.getText().equals("")){
-                conect.EJECUTAR("INSERT INTO clientes(id_cliente, nombre, telefono, email, activo, edad, sexo) VALUES('"+this.idcliente.getText()+"', '"+nombre.getText()+"', '"+telefono.getText()+"', '"+email.getText()+"', '"+activo+"', "+this.edad.getText()+", "+sexo+");");
-                JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
-                limpiar();
+        boolean sql;//Si se ejecuta bien la sentencia o no.
+        if(this.checkDatos() && this.valido){
+            conect.CONECTAR();
+            int activo = this.activo.isSelected()?1:0;
+            String sexo = this.sexo.getSelectedIndex()==0?"1":"0";
+            if(this.tDatos.getSelectedRow()==-1){
+                if(!idcliente.getText().equals("")&&!nombre.getText().equals("") && !telefono.getText().equals("") && !email.getText().equals("") && !edad.getText().equals("")){
+                    sql=conect.EJECUTAR("INSERT INTO clientes(id_cliente, nombre, telefono, email, activo, edad, sexo) VALUES('"+this.idcliente.getText()+"', '"+nombre.getText()+"', '"+telefono.getText()+"', '"+email.getText()+"', '"+activo+"', "+this.edad.getText()+", "+sexo+");");
+                    if(sql){
+                         JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
+                    }
+                    limpiar();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Campos sin llenar!");
+                }
             } else {
-                JOptionPane.showMessageDialog(null, "Campos sin llenar!");
+                if(this.nombre.getText().equals("") || this.telefono.getText().equals("") || this.email.getText().equals("")){
+                    JOptionPane.showMessageDialog(null,"Datos a modificar incompletos");
+                } else{
+                    conect.CONECTAR();
+                    sql=conect.EJECUTAR("UPDATE clientes SET nombre='"+this.nombre.getText()+"', telefono='"+this.telefono.getText()+"', email='"+this.email.getText()+"', activo='"+activo+"', edad="+edad.getText()+", sexo="+sexo+" WHERE id_cliente='"+this.idcliente.getText()+"';");
+                    conect.CERRAR();
+                    this.limpiar();
+                    if(sql){
+                        JOptionPane.showMessageDialog(null,"Datos modificados correctamente!");
+                    }
+                    
+
+                }
             }
+            conect.CERRAR();
+            this.checkGrid();
+        
         } else {
-            if(this.nombre.getText().equals("") || this.telefono.getText().equals("") || this.email.getText().equals("")){
-                JOptionPane.showMessageDialog(null,"Datos a modificar incompletos");
-            } else{
-                conect.CONECTAR();
-                conect.EJECUTAR("UPDATE clientes SET nombre='"+this.nombre.getText()+"', telefono='"+this.telefono.getText()+"', email='"+this.email.getText()+"', activo='"+activo+"', edad="+edad.getText()+", sexo="+sexo+" WHERE id_cliente='"+this.idcliente.getText()+"';");
-                conect.CERRAR();
-                this.limpiar();
-                JOptionPane.showMessageDialog(null,"Datos modificados correctamente!");
-
-            }
-        }
-
-        conect.CERRAR();
-        this.checkGrid();
+            JOptionPane.showMessageDialog(null, "TADAIMA");
+        } 
+        
 
     }//GEN-LAST:event_saveDCActionPerformed
 
     private void deleteDCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteDCActionPerformed
         // TODO add your handling code here:
+        boolean sql;//si se realiza bien la sentencia
         conect.CONECTAR();
         if(!idcliente.getText().equals("")){
-            conect.EJECUTAR("DELETE FROM clientes WHERE id_cliente="+idcliente.getText());
-            JOptionPane.showMessageDialog(null, "Datos eliminados correctamente!");
+            sql=conect.EJECUTAR("DELETE FROM clientes WHERE id_cliente="+idcliente.getText());
+            if(sql){
+                JOptionPane.showMessageDialog(null, "Datos eliminados correctamente!");
+            }    
             limpiar();
         } else {
             JOptionPane.showMessageDialog(null," Campo del codigo vacío!");
         }
-        conect.EJECUTAR("");
         limpiar();
         conect.CERRAR();
         this.checkGrid();
@@ -466,7 +504,10 @@ public class CLIENTE extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         if(this.idcliente.getText().length() > 16){
             JOptionPane.showMessageDialog(null, "Su ID de cedula no debe exceder los 16 caracteres!");
+            this.valido=false;
             this.idcliente.requestFocus();
+        } else{
+            this.valido=true;
         }
     }//GEN-LAST:event_idclienteFocusLost
 
@@ -474,7 +515,10 @@ public class CLIENTE extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         if(this.nombre.getText().length() > 60){
             JOptionPane.showMessageDialog(null, "El nombre completo no puede exceder los 60 caracteres!");
+            this.valido=false;
             this.nombre.requestFocus();
+        } else{
+            this.valido=true;
         }
     }//GEN-LAST:event_nombreFocusLost
 
@@ -482,13 +526,20 @@ public class CLIENTE extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         if(this.telefono.getText().length() > 8 || this.telefono.getText().length() < 8){
             JOptionPane.showMessageDialog(null, "La longitud del telefono debe de ser 8 caracteres!");
-            this.telefono.requestFocus();
+            if(!this.nombre.getText().equals("") || !this.email.getText().equals("") || !!this.edad.getText().equals("")){
+                this.telefono.requestFocus();
+            } 
+            this.valido=false;
         } else{
             try{
                 int t = Integer.parseInt(this.telefono.getText());
+                this.valido=true;
             } catch(NumberFormatException n){
                 JOptionPane.showMessageDialog(null, "Error! El n° de telefono no puede contener letras!");
+                this.valido=false;
+                this.telefono.setText("");
             }
+            
         }
     }//GEN-LAST:event_telefonoFocusLost
 
@@ -496,7 +547,10 @@ public class CLIENTE extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         if(this.email.getText().length() > 50){
             JOptionPane.showMessageDialog(null, "La longitud del correo no puede ser mayor a 50 caracteres!");
+            this.valido=false;
             this.email.requestFocus();
+        } else{
+            this.valido=true;
         }
     }//GEN-LAST:event_emailFocusLost
 
