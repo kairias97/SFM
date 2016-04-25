@@ -102,6 +102,8 @@ public class MATERIALES extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
+        setTitle("CATALOGO DE MATERIALES");
+
         showTMAT.setText("Mostrar todos");
         showTMAT.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
