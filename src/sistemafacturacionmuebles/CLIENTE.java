@@ -263,44 +263,43 @@ public class CLIENTE extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(newDC)
-                        .addGap(18, 18, 18)
-                        .addComponent(saveDC)
-                        .addGap(18, 18, 18)
-                        .addComponent(deleteDC)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnMostrar))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(21, 21, 21)
-                                .addComponent(jLabel8)
+                                .addComponent(newDC)
                                 .addGap(18, 18, 18)
-                                .addComponent(sexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(saveDC)
+                                .addGap(18, 18, 18)
+                                .addComponent(deleteDC)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnMostrar))
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel7))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(idcliente, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
-                                    .addComponent(nombre)
-                                    .addComponent(email)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jLabel5)
-                                        .addGap(33, 33, 33))
-                                    .addComponent(txtEdadDC, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtTlfDC))))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGap(12, 12, 12)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(21, 21, 21)
+                                        .addComponent(jLabel8)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(sexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel4)
+                                            .addComponent(jLabel3)
+                                            .addComponent(jLabel1)
+                                            .addComponent(jLabel2)
+                                            .addComponent(jLabel7))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(idcliente, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
+                                            .addComponent(nombre)
+                                            .addComponent(email)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addComponent(jLabel5)
+                                                .addGap(33, 33, 33))
+                                            .addComponent(txtEdadDC, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtTlfDC)))))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(35, 35, 35)
                         .addComponent(jLabel6)
@@ -309,7 +308,7 @@ public class CLIENTE extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 491, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -386,7 +385,7 @@ public class CLIENTE extends javax.swing.JInternalFrame {
     private void saveDCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveDCActionPerformed
         // TODO add your handling code here:
         boolean sql;//Si se ejecuta bien la sentencia o no.
-        if(Integer.parseInt(this.txtEdadDC.getText()) < 135 && Integer.parseInt(this.txtEdadDC.getText()) > 16){
+        if(Integer.parseInt(this.txtEdadDC.getText()) < 135 && Integer.parseInt(this.txtEdadDC.getText()) > 16 && email.getText().length() <= 60 && idcliente.getText().length() <=16 && nombre.getText().length() <=60 ){
             conect.CONECTAR();
             int activo = this.activo.isSelected()?1:0;
             String sexo = this.sexo.getSelectedIndex()==0?"1":"0";
@@ -396,6 +395,7 @@ public class CLIENTE extends javax.swing.JInternalFrame {
                     if(sql){
                          JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
                          limpiar();
+                         this.idcliente.setEditable(true);
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "Campos sin llenar!");
@@ -410,6 +410,7 @@ public class CLIENTE extends javax.swing.JInternalFrame {
                     if(sql){
                         JOptionPane.showMessageDialog(null,"Datos modificados correctamente!");
                         this.limpiar();
+                        this.idcliente.setEditable(true);
                     }
                     
 
@@ -419,7 +420,7 @@ public class CLIENTE extends javax.swing.JInternalFrame {
             this.checkGrid();
         
         } else {
-            JOptionPane.showMessageDialog(null, "Revise los campos ingresados. No es posible realizar acción!");
+            JOptionPane.showMessageDialog(null, "Revise los campos ingresados. Uno o más campos no son válidos!");
         } 
         
 
@@ -486,6 +487,7 @@ public class CLIENTE extends javax.swing.JInternalFrame {
 
     private void emailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_emailFocusLost
         // TODO add your handling code here:
+       /*
         if(this.email.getText().length() > 50){
             JOptionPane.showMessageDialog(null, "La longitud del correo no puede ser mayor a 50 caracteres!");
             this.valido=false;
@@ -493,6 +495,7 @@ public class CLIENTE extends javax.swing.JInternalFrame {
         } else{
             this.valido=true;
         }
+               */
     }//GEN-LAST:event_emailFocusLost
 
 

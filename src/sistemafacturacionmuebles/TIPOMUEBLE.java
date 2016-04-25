@@ -29,6 +29,7 @@ public class TIPOMUEBLE extends javax.swing.JInternalFrame {
         this.a=1;
         updateGrid("Select * from tipo WHERE activo='"+this.a+"';");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
     }
     
     private void limpiar(){
@@ -173,10 +174,8 @@ public class TIPOMUEBLE extends javax.swing.JInternalFrame {
             }
         });
         tDatosTM.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        tDatosTM.setColumnSelectionAllowed(true);
         tDatosTM.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tDatosTM);
-        tDatosTM.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (tDatosTM.getColumnModel().getColumnCount() > 0) {
             tDatosTM.getColumnModel().getColumn(0).setResizable(false);
             tDatosTM.getColumnModel().getColumn(0).setPreferredWidth(100);
@@ -255,47 +254,59 @@ public class TIPOMUEBLE extends javax.swing.JInternalFrame {
 
     private void saveTMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveTMActionPerformed
         // TODO add your handling code here:
-        conect.CONECTAR();
-        int activo = this.activoTM.isSelected()?1:0;
+        boolean sql;
+        if(this.txtIDTM.getText().length() <= 5 && this.txtDescripcionTM.getText().length() <= 60){
+            conect.CONECTAR();
+            int activo = this.activoTM.isSelected()?1:0;
         
-        if(this.tDatosTM.getSelectedRow()==-1){
-            if(!txtIDTM.getText().equals("") && !this.txtDescripcionTM.getText().equals("")){
-                conect.EJECUTAR("INSERT INTO tipo(id_tipo, descripcion, activo) VALUES('"+this.txtIDTM.getText()+"', '"+this.txtDescripcionTM.getText()+"', '"+activo+"');");
-                JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
-                limpiar();
+            if(this.tDatosTM.getSelectedRow()==-1){
+                if(!txtIDTM.getText().equals("") && !this.txtDescripcionTM.getText().equals("")){
+                    sql=conect.EJECUTAR("INSERT INTO tipo(id_tipo, descripcion, activo) VALUES('"+this.txtIDTM.getText()+"', '"+this.txtDescripcionTM.getText()+"', '"+activo+"');");
+                    if(sql){
+                        JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
+                        limpiar();
+                        this.txtIDTM.setEditable(false);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Campos sin llenar!");
+                }
             } else {
-                JOptionPane.showMessageDialog(null, "Campos sin llenar!");
+                if(this.txtIDTM.getText().equals("") || this.txtDescripcionTM.getText().equals("")){
+                    JOptionPane.showMessageDialog(null,"Datos a modificar incompletos");
+                } else{
+                    conect.CONECTAR();
+                    sql=conect.EJECUTAR("UPDATE tipo SET descripcion='"+this.txtDescripcionTM.getText()+"', activo='"+activo+"' WHERE id_tipo='"+this.txtIDTM.getText()+"';");
+                    conect.CERRAR();
+                    if(sql){
+                        this.limpiar();
+                        JOptionPane.showMessageDialog(null,"Datos modificados correctamente!");
+                        this.txtIDTM.setEditable(false);
+                    }
+                }
             }
+
+            conect.CERRAR();
+            this.checkGrid();
         } else {
-            if(this.txtIDTM.getText().equals("") || this.txtDescripcionTM.getText().equals("")){
-                JOptionPane.showMessageDialog(null,"Datos a modificar incompletos");
-            } else{
-                conect.CONECTAR();
-                conect.EJECUTAR("UPDATE tipo SET descripcion='"+this.txtDescripcionTM.getText()+"', activo='"+activo+"' WHERE id_tipo='"+this.txtIDTM.getText()+"';");
-                conect.CERRAR();
-                this.limpiar();
-                JOptionPane.showMessageDialog(null,"Datos modificados correctamente!");
-
-            }
+            JOptionPane.showMessageDialog(null, "Revise los datos. Uno o más campos excede su límite de caracteres.");
         }
-
-        conect.CERRAR();
-        this.checkGrid();
+        
 
     }//GEN-LAST:event_saveTMActionPerformed
 
     private void deleteTMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteTMActionPerformed
         // TODO add your handling code here:
         conect.CONECTAR();
+        boolean sql;
         if(!this.txtIDTM.getText().equals("")){
-            conect.EJECUTAR("DELETE FROM tipo WHERE id_tipo='"+this.txtIDTM.getText()+"';");
-            JOptionPane.showMessageDialog(null, "Datos eliminados correctamente!");
-            limpiar();
+            sql= conect.EJECUTAR("DELETE FROM tipo WHERE id_tipo='"+this.txtIDTM.getText()+"';");
+            if(sql){
+                JOptionPane.showMessageDialog(null, "Datos eliminados correctamente!");
+                limpiar();
+            }
         } else {
             JOptionPane.showMessageDialog(null," Campo del codigo vacío!");
         }
-        conect.EJECUTAR("");
-        limpiar();
         conect.CERRAR();
         this.checkGrid();
     }//GEN-LAST:event_deleteTMActionPerformed
@@ -322,18 +333,11 @@ public class TIPOMUEBLE extends javax.swing.JInternalFrame {
 
     private void txtIDTMFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIDTMFocusLost
         // TODO add your handling code here:
-        if(this.txtIDTM.getText().length() > 5){
-            JOptionPane.showMessageDialog(null, "La longitud del codigo no puede exceder los 5 caracteres!");
-            this.txtIDTM.requestFocus();
-        }
+        
     }//GEN-LAST:event_txtIDTMFocusLost
 
     private void txtDescripcionTMFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDescripcionTMFocusLost
         // TODO add your handling code here:
-        if(this.txtDescripcionTM.getText().length() > 60){
-            JOptionPane.showMessageDialog(null, "La descripcion no puede exceder los 60 caracteres!");
-            this.txtIDTM.requestFocus();
-        }
     }//GEN-LAST:event_txtDescripcionTMFocusLost
 
 

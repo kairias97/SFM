@@ -102,6 +102,7 @@ public class MATERIALES extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
+        setClosable(true);
         setTitle("CATALOGO DE MATERIALES");
 
         showTMAT.setText("Mostrar todos");
@@ -150,14 +151,14 @@ public class MATERIALES extends javax.swing.JInternalFrame {
             }
         });
         tDatosTMAT.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        tDatosTMAT.setColumnSelectionAllowed(true);
         tDatosTMAT.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tDatosTMAT);
-        tDatosTMAT.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         if (tDatosTMAT.getColumnModel().getColumnCount() > 0) {
             tDatosTMAT.getColumnModel().getColumn(0).setResizable(false);
             tDatosTMAT.getColumnModel().getColumn(0).setPreferredWidth(80);
-            tDatosTMAT.getColumnModel().getColumn(1).setPreferredWidth(200);
+            tDatosTMAT.getColumnModel().getColumn(1).setResizable(false);
+            tDatosTMAT.getColumnModel().getColumn(1).setPreferredWidth(250);
+            tDatosTMAT.getColumnModel().getColumn(2).setResizable(false);
             tDatosTMAT.getColumnModel().getColumn(2).setPreferredWidth(100);
         }
 
@@ -215,11 +216,11 @@ public class MATERIALES extends javax.swing.JInternalFrame {
                                 .addComponent(deleteTMAT)
                                 .addGap(18, 18, 18)
                                 .addComponent(showTMAT))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(172, 172, 172)
                         .addComponent(jLabel1)))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -234,7 +235,7 @@ public class MATERIALES extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addComponent(activoTMAT))
@@ -292,13 +293,18 @@ public class MATERIALES extends javax.swing.JInternalFrame {
     private void saveTMATActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveTMATActionPerformed
         // TODO add your handling code here:
         conect.CONECTAR();
+        boolean sql;
         int activo = this.activoTMAT.isSelected()?1:0;
 
         if(this.tDatosTMAT.getSelectedRow()==-1){
             if(!txtIDTMAT.getText().equals("") && !this.txtDescripcionTMAT.getText().equals("")){
-                conect.EJECUTAR("INSERT INTO material(id_material, descripcion, activo) VALUES('"+this.txtIDTMAT.getText()+"', '"+this.txtDescripcionTMAT.getText()+"', '"+activo+"');");
-                JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
-                limpiar();
+                sql=conect.EJECUTAR("INSERT INTO material(id_material, descripcion, activo) VALUES('"+this.txtIDTMAT.getText()+"', '"+this.txtDescripcionTMAT.getText()+"', '"+activo+"');");
+                if(sql){
+                    JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
+                    limpiar();
+                    this.txtIDTMAT.setEditable(true);
+                }
+                
             } else {
                 JOptionPane.showMessageDialog(null, "Campos sin llenar!");
             }
@@ -307,11 +313,13 @@ public class MATERIALES extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null,"Datos a modificar incompletos");
             } else{
                 conect.CONECTAR();
-                conect.EJECUTAR("UPDATE material SET descripcion='"+this.txtDescripcionTMAT.getText()+"', activo='"+activo+"' WHERE id_material='"+this.txtIDTMAT.getText()+"';");
+                sql=conect.EJECUTAR("UPDATE material SET descripcion='"+this.txtDescripcionTMAT.getText()+"', activo='"+activo+"' WHERE id_material='"+this.txtIDTMAT.getText()+"';");
                 conect.CERRAR();
-                this.limpiar();
-                JOptionPane.showMessageDialog(null,"Datos modificados correctamente!");
-
+                if(sql){
+                    JOptionPane.showMessageDialog(null,"Datos modificados correctamente!");
+                    this.limpiar();
+                    this.txtIDTMAT.setEditable(true);
+                }
             }
         }
 
@@ -321,18 +329,19 @@ public class MATERIALES extends javax.swing.JInternalFrame {
 
     private void txtIDTMATFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIDTMATFocusLost
         // TODO add your handling code here:
+        /*
         if(this.txtIDTMAT.getText().length()>5){
             JOptionPane.showMessageDialog(null, "El codigo no puede exceder los 5 caracteres!");
             this.txtIDTMAT.requestFocus();
-        }
+        }*/
     }//GEN-LAST:event_txtIDTMATFocusLost
 
     private void txtDescripcionTMATFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDescripcionTMATFocusLost
         // TODO add your handling code here:
-        if(this.txtDescripcionTMAT.getText().length() > 60){
+        /*if(this.txtDescripcionTMAT.getText().length() > 60){
             JOptionPane.showMessageDialog(null, "La descripcion del material no puede exceder los 60 caracteres!");
             this.txtDescripcionTMAT.requestFocus();
-        }
+        }*/
     }//GEN-LAST:event_txtDescripcionTMATFocusLost
 
 
