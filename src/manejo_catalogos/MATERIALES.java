@@ -36,6 +36,7 @@ public class MATERIALES extends javax.swing.JInternalFrame {
         this.txtIDTMAT.setText("");
         this.txtDescripcionTMAT.setText("");
         this.activoTMAT.setSelected(false);
+        this.txtIDTMAT.requestFocus();
     
     }
     public void updateGrid(String sql){
@@ -153,12 +154,17 @@ public class MATERIALES extends javax.swing.JInternalFrame {
         });
         tDatosTMAT.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         tDatosTMAT.getTableHeader().setReorderingAllowed(false);
+        tDatosTMAT.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tDatosTMATMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tDatosTMAT);
         if (tDatosTMAT.getColumnModel().getColumnCount() > 0) {
             tDatosTMAT.getColumnModel().getColumn(0).setResizable(false);
             tDatosTMAT.getColumnModel().getColumn(0).setPreferredWidth(80);
             tDatosTMAT.getColumnModel().getColumn(1).setResizable(false);
-            tDatosTMAT.getColumnModel().getColumn(1).setPreferredWidth(250);
+            tDatosTMAT.getColumnModel().getColumn(1).setPreferredWidth(300);
             tDatosTMAT.getColumnModel().getColumn(2).setResizable(false);
             tDatosTMAT.getColumnModel().getColumn(2).setPreferredWidth(100);
         }
@@ -256,6 +262,14 @@ public class MATERIALES extends javax.swing.JInternalFrame {
 
     private void showTMATMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showTMATMouseClicked
         // TODO add your handling code here:
+        int f = this.tDatosTMAT.getSelectedRow();
+        if(f!=-1){
+            boolean activo = this.tDatosTMAT.getValueAt(f, 2).equals("ACTIVO");
+            if(!activo){
+                limpiar();
+                this.txtIDTMAT.setEditable(true);
+            }
+        }
         if(this.a==1){
             this.a=0;
             this.showTMAT.setText("Mostrar solo activos");
@@ -293,39 +307,44 @@ public class MATERIALES extends javax.swing.JInternalFrame {
 
     private void saveTMATActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveTMATActionPerformed
         // TODO add your handling code here:
-        conect.CONECTAR();
-        boolean sql;
-        int activo = this.activoTMAT.isSelected()?1:0;
+        if(this.txtIDTMAT.getText().length() <= 5 && this.txtDescripcionTMAT.getText().length() <= 45){
+            
+            conect.CONECTAR();
+            boolean sql;
+            int activo = this.activoTMAT.isSelected()?1:0;
 
-        if(this.tDatosTMAT.getSelectedRow()==-1){
-            if(!txtIDTMAT.getText().equals("") && !this.txtDescripcionTMAT.getText().equals("")){
-                sql=conect.EJECUTAR("INSERT INTO material(id_material, descripcion, activo) VALUES('"+this.txtIDTMAT.getText()+"', '"+this.txtDescripcionTMAT.getText()+"', '"+activo+"');");
-                if(sql){
-                    JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
-                    limpiar();
-                    this.txtIDTMAT.setEditable(true);
+            if(this.tDatosTMAT.getSelectedRow()==-1){
+                if(!txtIDTMAT.getText().equals("") && !this.txtDescripcionTMAT.getText().equals("")){
+                    sql=conect.EJECUTAR("INSERT INTO material(id_material, descripcion, activo) VALUES('"+this.txtIDTMAT.getText()+"', '"+this.txtDescripcionTMAT.getText()+"', '"+activo+"');");
+                    if(sql){
+                        JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
+                        limpiar();
+                        this.txtIDTMAT.setEditable(true);
+                    }
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Campos sin llenar!");
                 }
-                
             } else {
-                JOptionPane.showMessageDialog(null, "Campos sin llenar!");
-            }
-        } else {
-            if(this.txtIDTMAT.getText().equals("") || this.txtDescripcionTMAT.getText().equals("")){
-                JOptionPane.showMessageDialog(null,"Datos a modificar incompletos");
-            } else{
-                conect.CONECTAR();
-                sql=conect.EJECUTAR("UPDATE material SET descripcion='"+this.txtDescripcionTMAT.getText()+"', activo='"+activo+"' WHERE id_material='"+this.txtIDTMAT.getText()+"';");
-                conect.CERRAR();
-                if(sql){
-                    JOptionPane.showMessageDialog(null,"Datos modificados correctamente!");
-                    this.limpiar();
-                    this.txtIDTMAT.setEditable(true);
+                if(this.txtIDTMAT.getText().equals("") || this.txtDescripcionTMAT.getText().equals("")){
+                    JOptionPane.showMessageDialog(null,"Datos a modificar incompletos");
+                } else{
+                    conect.CONECTAR();
+                    sql=conect.EJECUTAR("UPDATE material SET descripcion='"+this.txtDescripcionTMAT.getText()+"', activo='"+activo+"' WHERE id_material='"+this.txtIDTMAT.getText()+"';");
+                    conect.CERRAR();
+                    if(sql){
+                        JOptionPane.showMessageDialog(null,"Datos modificados correctamente!");
+                        this.limpiar();
+                        this.txtIDTMAT.setEditable(true);
+                    }
                 }
             }
-        }
 
-        conect.CERRAR();
-        this.checkGrid();
+            conect.CERRAR();
+            this.checkGrid();
+        } else {
+            JOptionPane.showMessageDialog(null, "Revise los datos. Uno o más campos exceden su límite de caracteres!");
+        }
     }//GEN-LAST:event_saveTMATActionPerformed
 
     private void txtIDTMATFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIDTMATFocusLost
@@ -344,6 +363,16 @@ public class MATERIALES extends javax.swing.JInternalFrame {
             this.txtDescripcionTMAT.requestFocus();
         }*/
     }//GEN-LAST:event_txtDescripcionTMATFocusLost
+
+    private void tDatosTMATMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tDatosTMATMouseClicked
+        // TODO add your handling code here:
+        this.txtIDTMAT.setEditable(false);
+        int fila = this.tDatosTMAT.getSelectedRow();
+        boolean activo = this.tDatosTMAT.getValueAt(fila, 2).equals("ACTIVO");
+        this.txtIDTMAT.setText((String) this.tDatosTMAT.getValueAt(fila, 0));
+        this.txtDescripcionTMAT.setText((String) this.tDatosTMAT.getValueAt(fila, 1));
+        this.activoTMAT.setSelected(activo);
+    }//GEN-LAST:event_tDatosTMATMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

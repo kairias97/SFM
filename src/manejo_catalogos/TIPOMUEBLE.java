@@ -34,14 +34,16 @@ public class TIPOMUEBLE extends javax.swing.JInternalFrame {
     }
     
     private void limpiar(){
+        
         this.txtIDTM.setText("");
         this.txtDescripcionTM.setText("");
         this.activoTM.setSelected(false);
+        this.txtIDTM.requestFocus();
+        
     }
     private void updateGrid(String sql){
         conect.CONECTAR();
         try {
-            
             //String[] titulos = {"CEDULA","NOMBRE","EDAD", "SEXO","TELEFONO","EMAIL", "ACTIVO"};
             
             DefaultTableModel modelo = (DefaultTableModel) this.tDatosTM.getModel();
@@ -176,12 +178,17 @@ public class TIPOMUEBLE extends javax.swing.JInternalFrame {
         });
         tDatosTM.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         tDatosTM.getTableHeader().setReorderingAllowed(false);
+        tDatosTM.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tDatosTMMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tDatosTM);
         if (tDatosTM.getColumnModel().getColumnCount() > 0) {
             tDatosTM.getColumnModel().getColumn(0).setResizable(false);
             tDatosTM.getColumnModel().getColumn(0).setPreferredWidth(100);
             tDatosTM.getColumnModel().getColumn(1).setResizable(false);
-            tDatosTM.getColumnModel().getColumn(1).setPreferredWidth(500);
+            tDatosTM.getColumnModel().getColumn(1).setPreferredWidth(300);
             tDatosTM.getColumnModel().getColumn(2).setResizable(false);
             tDatosTM.getColumnModel().getColumn(2).setPreferredWidth(110);
         }
@@ -256,7 +263,7 @@ public class TIPOMUEBLE extends javax.swing.JInternalFrame {
     private void saveTMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveTMActionPerformed
         // TODO add your handling code here:
         boolean sql;
-        if(this.txtIDTM.getText().length() <= 5 && this.txtDescripcionTM.getText().length() <= 60){
+        if(this.txtIDTM.getText().length() <= 5 && this.txtDescripcionTM.getText().length() <= 50){
             conect.CONECTAR();
             int activo = this.activoTM.isSelected()?1:0;
         
@@ -289,7 +296,7 @@ public class TIPOMUEBLE extends javax.swing.JInternalFrame {
             conect.CERRAR();
             this.checkGrid();
         } else {
-            JOptionPane.showMessageDialog(null, "Revise los datos. Uno o más campos excede su límite de caracteres.");
+            JOptionPane.showMessageDialog(null, "Revise los datos. Uno o más campos exceden su límite de caracteres.");
         }
         
 
@@ -322,6 +329,14 @@ public class TIPOMUEBLE extends javax.swing.JInternalFrame {
 
     private void showTMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showTMMouseClicked
         // TODO add your handling code here:
+        int f = this.tDatosTM.getSelectedRow();
+        if(f!=-1){
+            boolean activo = this.tDatosTM.getValueAt(f, 2).equals("ACTIVO");
+            if(!activo){
+                limpiar();
+                this.txtIDTM.setEditable(true);
+            }
+        }
         if(this.a==1){
             this.a=0;
             this.showTM.setText("Mostrar solo activos");
@@ -340,6 +355,16 @@ public class TIPOMUEBLE extends javax.swing.JInternalFrame {
     private void txtDescripcionTMFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDescripcionTMFocusLost
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDescripcionTMFocusLost
+
+    private void tDatosTMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tDatosTMMouseClicked
+        // TODO add your handling code here:
+        this.txtIDTM.setEditable(false);
+        int fila = this.tDatosTM.getSelectedRow();
+        boolean activo = this.tDatosTM.getValueAt(fila, 2).equals("ACTIVO");
+        this.txtIDTM.setText((String)this.tDatosTM.getValueAt(fila, 0));
+        this.txtDescripcionTM.setText((String) this.tDatosTM.getValueAt(fila, 1));
+        this.activoTM.setSelected(activo);
+    }//GEN-LAST:event_tDatosTMMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

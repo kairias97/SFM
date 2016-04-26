@@ -30,6 +30,7 @@ public class CLIENTE extends javax.swing.JInternalFrame {
         a=1;
         updateGrid("Select * from clientes WHERE activo='"+this.a+"';");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        this.idcliente.setEditable(true);
         valido=false;
         
     }
@@ -79,6 +80,7 @@ public class CLIENTE extends javax.swing.JInternalFrame {
         }
     }
         public void limpiar(){
+            
             this.idcliente.setText("");
             this.nombre.setText("");
             this.txtEdadDC.setText("");
@@ -86,6 +88,8 @@ public class CLIENTE extends javax.swing.JInternalFrame {
             this.txtTlfDC.setText("");
             this.email.setText("");
             this.activo.setSelected(false);
+            this.idcliente.requestFocus();
+            
         }
         /*
         private boolean checkDatos(){
@@ -136,6 +140,7 @@ public class CLIENTE extends javax.swing.JInternalFrame {
         setClosable(true);
         setTitle("CATALOGO DE CLIENTES");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/1461721536_free-17.png"))); // NOI18N
 
         nombre.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -192,17 +197,17 @@ public class CLIENTE extends javax.swing.JInternalFrame {
             tDatos.getColumnModel().getColumn(0).setResizable(false);
             tDatos.getColumnModel().getColumn(0).setPreferredWidth(120);
             tDatos.getColumnModel().getColumn(1).setResizable(false);
-            tDatos.getColumnModel().getColumn(1).setPreferredWidth(280);
+            tDatos.getColumnModel().getColumn(1).setPreferredWidth(360);
             tDatos.getColumnModel().getColumn(2).setResizable(false);
-            tDatos.getColumnModel().getColumn(2).setPreferredWidth(90);
+            tDatos.getColumnModel().getColumn(2).setPreferredWidth(70);
             tDatos.getColumnModel().getColumn(3).setResizable(false);
-            tDatos.getColumnModel().getColumn(3).setPreferredWidth(90);
+            tDatos.getColumnModel().getColumn(3).setPreferredWidth(70);
             tDatos.getColumnModel().getColumn(4).setResizable(false);
-            tDatos.getColumnModel().getColumn(4).setPreferredWidth(100);
+            tDatos.getColumnModel().getColumn(4).setPreferredWidth(90);
             tDatos.getColumnModel().getColumn(5).setResizable(false);
             tDatos.getColumnModel().getColumn(5).setPreferredWidth(200);
             tDatos.getColumnModel().getColumn(6).setResizable(false);
-            tDatos.getColumnModel().getColumn(6).setPreferredWidth(100);
+            tDatos.getColumnModel().getColumn(6).setPreferredWidth(70);
         }
 
         saveDC.setText("Guardar");
@@ -421,7 +426,7 @@ public class CLIENTE extends javax.swing.JInternalFrame {
             this.checkGrid();
         
         } else {
-            JOptionPane.showMessageDialog(null, "Revise los campos ingresados. Uno o más campos no son válidos!");
+            JOptionPane.showMessageDialog(null, "Revise los datos. Uno o más campos exceden su límite de caracteres!");
         } 
         
 
@@ -447,6 +452,14 @@ public class CLIENTE extends javax.swing.JInternalFrame {
 
     private void btnMostrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMostrarMouseClicked
         // TODO add your handling code here:
+        int f = this.tDatos.getSelectedRow();
+        if(f!=-1){
+            boolean activo = this.tDatos.getValueAt(f, 6).equals("ACTIVO");
+            if(!activo){
+                limpiar();
+                this.idcliente.setEditable(true);
+            }
+        }
         if(this.a==1){
             this.a=0;
             this.btnMostrar.setText("Mostrar solo activos");
