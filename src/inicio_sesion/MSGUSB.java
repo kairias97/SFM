@@ -4,7 +4,9 @@
  * and open the template in the editor.
  */
 
-package sistemafacturacionmuebles;
+package inicio_sesion;
+
+import inicio_sesion.INICIOUSB;
 
 /**
  *

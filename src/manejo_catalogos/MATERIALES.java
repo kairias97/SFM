@@ -4,8 +4,9 @@
  * and open the template in the editor.
  */
 
-package sistemafacturacionmuebles;
+package manejo_catalogos;
 
+import uso_bd.CONEXION;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;

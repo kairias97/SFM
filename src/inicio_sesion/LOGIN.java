@@ -4,14 +4,16 @@
  * and open the template in the editor.
  */
 
-package sistemafacturacionmuebles;
+package inicio_sesion;
 
+import uso_bd.CONEXION;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import menu_principal.MENUSFM;
 
 /**
  *

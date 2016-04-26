@@ -3,7 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sistemafacturacionmuebles;
+package menu_principal;
+import manejo_catalogos.TIPOMUEBLE;
+import manejo_catalogos.CLIENTE;
+import manejo_catalogos.MATERIALES;
+import inicio_sesion.USER;
+import uso_bd.CONEXION;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -159,7 +164,7 @@ public class MENUSFM extends javax.swing.JFrame {
         btnAdd = new javax.swing.JButton();
         msgAU = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        comboAdmin = new javax.swing.JComboBox<>();
+        comboAdmin = new javax.swing.JComboBox<String>();
         borrarUser = new javax.swing.JDialog();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -319,7 +324,7 @@ public class MENUSFM extends javax.swing.JFrame {
 
         jLabel7.setText("Administrador:");
 
-        comboAdmin.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NO", "SI" }));
+        comboAdmin.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "NO", "SI" }));
 
         javax.swing.GroupLayout agregarUserLayout = new javax.swing.GroupLayout(agregarUser.getContentPane());
         agregarUser.getContentPane().setLayout(agregarUserLayout);
