@@ -106,6 +106,7 @@ public class MATERIALES extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setTitle("CATALOGO DE MATERIALES");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/1461722446_camping-nature-08.png"))); // NOI18N
 
         showTMAT.setText("Mostrar todos");
         showTMAT.addMouseListener(new java.awt.event.MouseAdapter() {
