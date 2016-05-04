@@ -6,8 +6,10 @@
 
 package manejo_catalogos;
 
+import java.net.URL;
 import uso_bd.CONEXION;
 import java.sql.ResultSet;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -30,6 +32,7 @@ public class MATERIALES extends javax.swing.JInternalFrame {
         a=1;
         updateGrid("Select * from material WHERE activo='"+this.a+"';");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
     }
     
     private void limpiar(){
@@ -106,7 +109,7 @@ public class MATERIALES extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setTitle("CATALOGO DE MATERIALES");
-        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/1461722446_camping-nature-08.png"))); // NOI18N
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/material.png"))); // NOI18N
 
         showTMAT.setText("Mostrar todos");
         showTMAT.addMouseListener(new java.awt.event.MouseAdapter() {

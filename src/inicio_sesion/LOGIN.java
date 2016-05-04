@@ -9,8 +9,10 @@ package inicio_sesion;
 import uso_bd.CONEXION;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import menu_principal.MENUSFM;
@@ -30,7 +32,10 @@ public class LOGIN extends javax.swing.JFrame {
         initComponents();
         conect = new CONEXION();
         this.setLocationRelativeTo(null);
-        
+        URL iconURL = getClass().getResource("/imagenes/login.png");
+        // iconURL is null when not found
+        ImageIcon icon = new ImageIcon(iconURL);
+        this.setIconImage(icon.getImage());
     }
 
     /**
@@ -51,6 +56,7 @@ public class LOGIN extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Login de usuario");
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Inicio de sesión de usuario");

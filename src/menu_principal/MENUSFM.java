@@ -12,12 +12,15 @@ import uso_bd.CONEXION;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
@@ -50,6 +53,10 @@ public class MENUSFM extends javax.swing.JFrame {
         this.hUB=false;
         this.hAU = false;
         this.setLocationRelativeTo(null);
+        URL iconURL = getClass().getResource("/imagenes/home.png");
+        // iconURL is null when not found
+        ImageIcon icon = new ImageIcon(iconURL);
+        this.setIconImage(icon.getImage());
     }
     
     private boolean checkUser(String user){

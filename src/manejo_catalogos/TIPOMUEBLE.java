@@ -106,6 +106,7 @@ public class TIPOMUEBLE extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setTitle("CATALOGO TIPO DE MUEBLES");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/mueble.png"))); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Tipo de Muebles");

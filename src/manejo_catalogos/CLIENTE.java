@@ -5,8 +5,10 @@
  */
 package manejo_catalogos;
 
+import java.net.URL;
 import uso_bd.CONEXION;
 import java.sql.ResultSet;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -32,6 +34,7 @@ public class CLIENTE extends javax.swing.JInternalFrame {
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.idcliente.setEditable(true);
         valido=false;
+       
         
     }
     
@@ -140,7 +143,7 @@ public class CLIENTE extends javax.swing.JInternalFrame {
         setClosable(true);
         setTitle("CATALOGO DE CLIENTES");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/1461721536_free-17.png"))); // NOI18N
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/cliente.png"))); // NOI18N
 
         nombre.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {

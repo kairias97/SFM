@@ -5,7 +5,7 @@
     <Property name="closable" type="boolean" value="true"/>
     <Property name="title" type="java.lang.String" value="CATALOGO DE MATERIALES"/>
     <Property name="frameIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-      <Image iconType="3" name="/imagenes/1461722446_camping-nature-08.png"/>
+      <Image iconType="3" name="/imagenes/material.png"/>
     </Property>
   </Properties>
   <SyntheticProperties>
