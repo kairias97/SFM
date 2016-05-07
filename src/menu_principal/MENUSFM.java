@@ -16,8 +16,11 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.net.URL;
+import java.util.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -57,6 +60,7 @@ public class MENUSFM extends javax.swing.JFrame {
         // iconURL is null when not found
         ImageIcon icon = new ImageIcon(iconURL);
         this.setIconImage(icon.getImage());
+        
     }
     
     private boolean checkUser(String user){
@@ -171,7 +175,7 @@ public class MENUSFM extends javax.swing.JFrame {
         btnAdd = new javax.swing.JButton();
         msgAU = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        comboAdmin = new javax.swing.JComboBox<String>();
+        comboAdmin = new javax.swing.JComboBox<>();
         borrarUser = new javax.swing.JDialog();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -331,7 +335,7 @@ public class MENUSFM extends javax.swing.JFrame {
 
         jLabel7.setText("Administrador:");
 
-        comboAdmin.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "NO", "SI" }));
+        comboAdmin.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NO", "SI" }));
 
         javax.swing.GroupLayout agregarUserLayout = new javax.swing.GroupLayout(agregarUser.getContentPane());
         agregarUser.getContentPane().setLayout(agregarUserLayout);
@@ -655,7 +659,13 @@ public class MENUSFM extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-
+        //Para obtener la hora
+        
+        
+        selec_carpeta sc = new selec_carpeta();
+        sc.show();
+        this.desktopPane.add(sc);
+        
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void txtClaveNewFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtClaveNewFocusLost
