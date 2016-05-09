@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package menu_principal;
+import inicio_sesion.INICIOUSB;
 import manejo_catalogos.TIPOMUEBLE;
 import manejo_catalogos.CLIENTE;
 import manejo_catalogos.MATERIALES;
@@ -29,6 +30,7 @@ import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
+import manejo_catalogos.PRODUCTO;
 
 /**
  *
@@ -60,6 +62,12 @@ public class MENUSFM extends javax.swing.JFrame {
         // iconURL is null when not found
         ImageIcon icon = new ImageIcon(iconURL);
         this.setIconImage(icon.getImage());
+        URL iconURL2 = getClass().getResource("/imagenes/settings.png");
+        // iconURL is null when not found
+        ImageIcon icon2 = new ImageIcon(iconURL2);
+        this.cambioClave.setIconImage(icon2.getImage());
+        this.agregarUser.setIconImage(icon2.getImage());
+        this.borrarUser.setIconImage(icon2.getImage());
         
     }
     
@@ -175,7 +183,7 @@ public class MENUSFM extends javax.swing.JFrame {
         btnAdd = new javax.swing.JButton();
         msgAU = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        comboAdmin = new javax.swing.JComboBox<>();
+        comboAdmin = new javax.swing.JComboBox<String>();
         borrarUser = new javax.swing.JDialog();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -191,6 +199,7 @@ public class MENUSFM extends javax.swing.JFrame {
         Clientes = new javax.swing.JMenuItem();
         tipoM = new javax.swing.JMenuItem();
         Materiales = new javax.swing.JMenuItem();
+        Productos = new javax.swing.JMenuItem();
         cambioClaveM = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
@@ -335,7 +344,7 @@ public class MENUSFM extends javax.swing.JFrame {
 
         jLabel7.setText("Administrador:");
 
-        comboAdmin.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NO", "SI" }));
+        comboAdmin.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "NO", "SI" }));
 
         javax.swing.GroupLayout agregarUserLayout = new javax.swing.GroupLayout(agregarUser.getContentPane());
         agregarUser.getContentPane().setLayout(agregarUserLayout);
@@ -524,6 +533,19 @@ public class MENUSFM extends javax.swing.JFrame {
         });
         jMenu2.add(Materiales);
 
+        Productos.setText("Productos");
+        Productos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ProductosMouseClicked(evt);
+            }
+        });
+        Productos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ProductosActionPerformed(evt);
+            }
+        });
+        jMenu2.add(Productos);
+
         jMenuBar1.add(jMenu2);
 
         cambioClaveM.setText("Administración");
@@ -593,9 +615,9 @@ public class MENUSFM extends javax.swing.JFrame {
         int salir = JOptionPane.showConfirmDialog(null, "Seguro que desea cerrar sesión?");
         if(salir==0){//Si es 0 entonces quiere salir
             this.dispose();
-            //INICIOUSB i = new INICIOUSB();
-            //String[] s = new String[1];//Dado que main pide un arreglo como argumento
-            //i.main(s);
+            INICIOUSB i = new INICIOUSB();
+            String[] s = new String[1];//Dado que main pide un arreglo como argumento
+            i.main(s);
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
@@ -814,6 +836,21 @@ public class MENUSFM extends javax.swing.JFrame {
         this.desktopPane.add(mat);
     }//GEN-LAST:event_MaterialesActionPerformed
 
+    private void ProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProductosMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ProductosMouseClicked
+
+    private void ProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProductosActionPerformed
+        // TODO add your handling code here:
+        try {
+            PRODUCTO prod = new PRODUCTO();
+            prod.setVisible(true);
+            this.desktopPane.add(prod);
+        } catch (SQLException ex) {
+            Logger.getLogger(MENUSFM.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_ProductosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -822,6 +859,7 @@ public class MENUSFM extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Clientes;
     private javax.swing.JMenuItem Materiales;
+    private javax.swing.JMenuItem Productos;
     private javax.swing.JDialog agregarUser;
     private javax.swing.JDialog borrarUser;
     private javax.swing.JButton btnAdd;

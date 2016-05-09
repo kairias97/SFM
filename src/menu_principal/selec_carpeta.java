@@ -7,6 +7,7 @@ package menu_principal;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -43,6 +44,7 @@ public class selec_carpeta extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setTitle("CARPETA DE DESTINO - RESPALDO BD");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/save.png"))); // NOI18N
 
         respaldo.setDialogType(javax.swing.JFileChooser.SAVE_DIALOG);
         respaldo.setDialogTitle("");
@@ -77,7 +79,7 @@ public class selec_carpeta extends javax.swing.JInternalFrame {
            //d=d.replace("\\", "\\\\");
       Process p = Runtime
             .getRuntime()
-            .exec("C:\\xampp\\mysql\\bin\\mysqldump --host sql5.freemysqlhosting.net -P 3306 -u sql5113770 -pRXv6DPXMwF sql5113770");
+            .exec("C:\\AppServ\\MySQL\\bin\\mysqldump --host sql5.freemysqlhosting.net -P 3306 -u sql5113770 -pRXv6DPXMwF sql5113770");
 
       InputStream is = p.getInputStream();
       FileOutputStream fos = new FileOutputStream(d+"\\backup-"+f+".sql");
@@ -91,8 +93,8 @@ public class selec_carpeta extends javax.swing.JInternalFrame {
 
       fos.close();
 
-   } catch (Exception e) {
-      e.printStackTrace();
+   } catch (IOException e) {
+       JOptionPane.showMessageDialog(null,"No se encontró ejecutable \"mysqldump.exe\" en ruta C:\\AppServ\\MySQL\\bin\\mysqldump .");
    }
     }
     private void respaldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_respaldoActionPerformed
@@ -104,7 +106,6 @@ public class selec_carpeta extends javax.swing.JInternalFrame {
              Date date = (Date) Calendar.getInstance().getTime();
             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
             String fecha = formatter.format(date);
-            JOptionPane.showMessageDialog(null, fecha);
             this.respaldar(fecha, direccion);
             this.dispose();
             JOptionPane.showMessageDialog(null, "Respaldo realizado con éxito!");

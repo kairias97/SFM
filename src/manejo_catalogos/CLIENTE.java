@@ -73,7 +73,7 @@ public class CLIENTE extends javax.swing.JInternalFrame {
         conect.CERRAR();
         
     
-        }
+    }
     
     private void checkGrid(){ //Para saber que mostrar en el Grid
         if(this.a==0){
@@ -231,6 +231,11 @@ public class CLIENTE extends javax.swing.JInternalFrame {
         btnMostrar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnMostrarMouseClicked(evt);
+            }
+        });
+        btnMostrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMostrarActionPerformed(evt);
             }
         });
 
@@ -514,6 +519,10 @@ public class CLIENTE extends javax.swing.JInternalFrame {
         }
                */
     }//GEN-LAST:event_emailFocusLost
+
+    private void btnMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnMostrarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
