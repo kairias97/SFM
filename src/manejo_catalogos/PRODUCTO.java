@@ -166,6 +166,7 @@ public class PRODUCTO extends javax.swing.JInternalFrame {
         jLabel8.setText("Activo:");
 
         comboTP.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboTP.setToolTipText("");
 
         comboMATP.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -211,6 +212,7 @@ public class PRODUCTO extends javax.swing.JInternalFrame {
         }
 
         btnNew.setText("Nuevo");
+        btnNew.setToolTipText("");
         btnNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNewActionPerformed(evt);

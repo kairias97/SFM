@@ -495,6 +495,7 @@ public class MENUSFM extends javax.swing.JFrame {
         jMenu1.setText("Archivo");
 
         jMenuItem1.setText("Cerrar sesión");
+        jMenuItem1.setToolTipText("");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);

@@ -194,6 +194,7 @@
             <StringItem index="3" value="Item 4"/>
           </StringArray>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JComboBox" name="comboMATP">
@@ -281,6 +282,7 @@
     <Component class="javax.swing.JButton" name="btnNew">
       <Properties>
         <Property name="text" type="java.lang.String" value="Nuevo"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNewActionPerformed"/>
