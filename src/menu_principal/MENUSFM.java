@@ -30,6 +30,7 @@ import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
+import manejo_catalogos.FACTURA;
 import manejo_catalogos.PRODUCTO;
 
 /**
@@ -200,6 +201,7 @@ public class MENUSFM extends javax.swing.JFrame {
         tipoM = new javax.swing.JMenuItem();
         Materiales = new javax.swing.JMenuItem();
         Productos = new javax.swing.JMenuItem();
+        Facturar = new javax.swing.JMenuItem();
         cambioClaveM = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
@@ -547,6 +549,19 @@ public class MENUSFM extends javax.swing.JFrame {
         });
         jMenu2.add(Productos);
 
+        Facturar.setText("Facturar");
+        Facturar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                FacturarMouseClicked(evt);
+            }
+        });
+        Facturar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FacturarActionPerformed(evt);
+            }
+        });
+        jMenu2.add(Facturar);
+
         jMenuBar1.add(jMenu2);
 
         cambioClaveM.setText("Administración");
@@ -684,10 +699,14 @@ public class MENUSFM extends javax.swing.JFrame {
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
         //Para obtener la hora
         
+        if(this.u.getAdmin()){
+            selec_carpeta sc = new selec_carpeta();
+            sc.show();
+            this.desktopPane.add(sc);
+        } else{
+            JOptionPane.showMessageDialog(null,"No cuenta con privilegios suficientes para realizar esta acción!");
+        }
         
-        selec_carpeta sc = new selec_carpeta();
-        sc.show();
-        this.desktopPane.add(sc);
         
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
@@ -852,6 +871,18 @@ public class MENUSFM extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_ProductosActionPerformed
 
+    private void FacturarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_FacturarMouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_FacturarMouseClicked
+
+    private void FacturarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FacturarActionPerformed
+        // TODO add your handling code here:
+        FACTURA f = new FACTURA();
+        f.setVisible(true);
+        this.desktopPane.add(f);
+    }//GEN-LAST:event_FacturarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -859,6 +890,7 @@ public class MENUSFM extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Clientes;
+    private javax.swing.JMenuItem Facturar;
     private javax.swing.JMenuItem Materiales;
     private javax.swing.JMenuItem Productos;
     private javax.swing.JDialog agregarUser;
