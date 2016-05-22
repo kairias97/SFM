@@ -630,7 +630,7 @@ public class FACTURA extends javax.swing.JInternalFrame{
             //Primero se crea la factura
             conect.CONECTAR();
             boolean sql, sql2;
-            sql = conect.EJECUTAR("INSERT INTO factura(fh_emision, id_pago, id_cliente, id_usuario, subtotal, iva, total, activo) VALUES('"+this.Fecha.getText().concat(" "+this.Hora.getText())+"','"+this.id_pago.get(this.comboPagoF.getSelectedIndex())+"','"+this.idCliente.get(this.comboClienteF.getSelectedIndex())+"','"+this.usuario.getUser()+"','"+this.SubTotal.getText()+"','"+this.IVA.getText()+"','"+this.Total.getText()+"', '1');");
+            sql = conect.EJECUTAR("INSERT INTO factura(fh_emision, id_pago, id_cliente, id_usuario, subtotal, iva, total, activo) VALUES('"+this.Fecha.getText().concat(" "+this.Hora.getText())+"', '"+this.id_pago.get(this.comboPagoF.getSelectedIndex())+"','"+this.idCliente.get(this.comboClienteF.getSelectedIndex())+"','"+this.usuario.getUser()+"','"+this.SubTotal.getText()+"','"+this.IVA.getText()+"','"+this.Total.getText()+"', '1');");
             //if(sql)JOptionPane.showMessageDialog(null, "Se creó espacio para factura");
             //Aca se va a crear los detalles de factura
             for (int i = 0; i < this.tCarritoF.getRowCount(); i++) {

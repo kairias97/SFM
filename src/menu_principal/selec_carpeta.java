@@ -74,12 +74,12 @@ public class selec_carpeta extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    private void respaldar(String f, String d){
+    private void respaldar(String f, String d, String ruta){
         try {
            //d=d.replace("\\", "\\\\");
       Process p = Runtime
             .getRuntime()
-            .exec("C:\\AppServ\\MySQL\\bin\\mysqldump --host sql5.freemysqlhosting.net -P 3306 -u sql5113770 -pRXv6DPXMwF sql5113770");
+            .exec(ruta+" --host sql5.freemysqlhosting.net -P 3306 -u sql5113770 -pRXv6DPXMwF sql5113770");
 
       InputStream is = p.getInputStream();
       FileOutputStream fos = new FileOutputStream(d+"\\backup-"+f+".sql");
@@ -90,11 +90,13 @@ public class selec_carpeta extends javax.swing.JInternalFrame {
          fos.write(buffer, 0, leido);
          leido = is.read(buffer);
       }
-
       fos.close();
+      JOptionPane.showMessageDialog(null, "Respaldo realizado con éxito!");
 
    } catch (IOException e) {
-       JOptionPane.showMessageDialog(null,"No se encontró ejecutable \"mysqldump.exe\" en ruta C:\\AppServ\\MySQL\\bin\\mysqldump .");
+       JOptionPane.showMessageDialog(null,"No se encontró ejecutable \"mysqldump.exe\" en ruta "+ruta+" .");
+       respaldar(f,d,"C:\\xampp\\mysql\\bin\\mysqldump");
+       
    }
     }
     private void respaldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_respaldoActionPerformed
@@ -106,9 +108,9 @@ public class selec_carpeta extends javax.swing.JInternalFrame {
              Date date = (Date) Calendar.getInstance().getTime();
             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
             String fecha = formatter.format(date);
-            this.respaldar(fecha, direccion);
+            this.respaldar(fecha, direccion, "C:\\AppServ\\MySQL\\bin\\mysqldump");
             this.dispose();
-            JOptionPane.showMessageDialog(null, "Respaldo realizado con éxito!");
+            
           }
         } else if (JFileChooser.CANCEL_SELECTION.equals(evt.getActionCommand())) {
             this.dispose();

@@ -32,6 +32,7 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 import manejo_catalogos.FACTURA;
 import manejo_catalogos.PRODUCTO;
+import manejo_catalogos.REPORTE_FACTURA;
 
 /**
  *
@@ -184,7 +185,7 @@ public class MENUSFM extends javax.swing.JFrame {
         btnAdd = new javax.swing.JButton();
         msgAU = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        comboAdmin = new javax.swing.JComboBox<String>();
+        comboAdmin = new javax.swing.JComboBox<>();
         borrarUser = new javax.swing.JDialog();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -201,7 +202,9 @@ public class MENUSFM extends javax.swing.JFrame {
         tipoM = new javax.swing.JMenuItem();
         Materiales = new javax.swing.JMenuItem();
         Productos = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
         Facturar = new javax.swing.JMenuItem();
+        Reportes = new javax.swing.JMenuItem();
         cambioClaveM = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
@@ -346,7 +349,7 @@ public class MENUSFM extends javax.swing.JFrame {
 
         jLabel7.setText("Administrador:");
 
-        comboAdmin.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "NO", "SI" }));
+        comboAdmin.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NO", "SI" }));
 
         javax.swing.GroupLayout agregarUserLayout = new javax.swing.GroupLayout(agregarUser.getContentPane());
         agregarUser.getContentPane().setLayout(agregarUserLayout);
@@ -549,7 +552,9 @@ public class MENUSFM extends javax.swing.JFrame {
         });
         jMenu2.add(Productos);
 
-        Facturar.setText("Facturar");
+        jMenu3.setText("Facturación");
+
+        Facturar.setText("Nueva Factura");
         Facturar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 FacturarMouseClicked(evt);
@@ -560,7 +565,17 @@ public class MENUSFM extends javax.swing.JFrame {
                 FacturarActionPerformed(evt);
             }
         });
-        jMenu2.add(Facturar);
+        jMenu3.add(Facturar);
+
+        Reportes.setText("Reportes");
+        Reportes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ReportesActionPerformed(evt);
+            }
+        });
+        jMenu3.add(Reportes);
+
+        jMenu2.add(jMenu3);
 
         jMenuBar1.add(jMenu2);
 
@@ -620,7 +635,7 @@ public class MENUSFM extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 701, Short.MAX_VALUE)
         );
 
         pack();
@@ -883,6 +898,13 @@ public class MENUSFM extends javax.swing.JFrame {
         this.desktopPane.add(f);
     }//GEN-LAST:event_FacturarActionPerformed
 
+    private void ReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReportesActionPerformed
+        // TODO add your handling code here:
+        REPORTE_FACTURA rf = new REPORTE_FACTURA();
+        rf.setVisible(true);
+        this.desktopPane.add(rf);
+    }//GEN-LAST:event_ReportesActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -893,6 +915,7 @@ public class MENUSFM extends javax.swing.JFrame {
     private javax.swing.JMenuItem Facturar;
     private javax.swing.JMenuItem Materiales;
     private javax.swing.JMenuItem Productos;
+    private javax.swing.JMenuItem Reportes;
     private javax.swing.JDialog agregarUser;
     private javax.swing.JDialog borrarUser;
     private javax.swing.JButton btnAdd;
@@ -915,6 +938,7 @@ public class MENUSFM extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
