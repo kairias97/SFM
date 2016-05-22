@@ -405,7 +405,7 @@ public class CLIENTE extends javax.swing.JInternalFrame {
             String sexo = this.sexo.getSelectedIndex()==0?"1":"0";
             if(this.tDatos.getSelectedRow()==-1){
                 if(!idcliente.getText().equals("")&&!nombre.getText().equals("") && !txtTlfDC.getText().equals("") && !email.getText().equals("") && !txtEdadDC.getText().equals("")){
-                    sql=conect.EJECUTAR("INSERT INTO clientes(id_cliente, nombre, telefono, email, activo, edad, sexo) VALUES('"+this.idcliente.getText()+"', '"+nombre.getText()+"', '"+txtTlfDC.getText()+"', '"+email.getText()+"', '"+activo+"', "+this.txtEdadDC.getText()+", "+sexo+");");
+                    sql=conect.EJECUTAR("INSERT INTO clientes(id_cliente, nombre, telefono, email, activo, edad, sexo) VALUES('"+this.idcliente.getText()+"', '"+nombre.getText().toUpperCase()+"', '"+txtTlfDC.getText()+"', '"+email.getText()+"', '"+activo+"', "+this.txtEdadDC.getText()+", "+sexo+");");
                     if(sql){
                          JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
                          limpiar();
@@ -419,7 +419,7 @@ public class CLIENTE extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null,"Datos a modificar incompletos");
                 } else{
                     conect.CONECTAR();
-                    sql=conect.EJECUTAR("UPDATE clientes SET nombre='"+this.nombre.getText()+"', telefono='"+this.txtTlfDC.getText()+"', email='"+this.email.getText()+"', activo='"+activo+"', edad="+txtEdadDC.getText()+", sexo="+sexo+" WHERE id_cliente='"+this.idcliente.getText()+"';");
+                    sql=conect.EJECUTAR("UPDATE clientes SET nombre='"+this.nombre.getText().toUpperCase()+"', telefono='"+this.txtTlfDC.getText()+"', email='"+this.email.getText()+"', activo='"+activo+"', edad="+txtEdadDC.getText()+", sexo="+sexo+" WHERE id_cliente='"+this.idcliente.getText()+"';");
                     conect.CERRAR();      
                     if(sql){
                         JOptionPane.showMessageDialog(null,"Datos modificados correctamente!");

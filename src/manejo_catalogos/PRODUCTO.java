@@ -7,6 +7,7 @@ package manejo_catalogos;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ComboBoxModel;
@@ -28,6 +29,7 @@ public class PRODUCTO extends javax.swing.JInternalFrame {
     int a; //de activo
     
     public PRODUCTO() throws SQLException {
+        Locale.setDefault(new Locale("en", "US"));
         initComponents();
         conect = new CONEXION();
         conect.CONECTAR();
@@ -106,8 +108,26 @@ public class PRODUCTO extends javax.swing.JInternalFrame {
             e.printStackTrace();
         }
         conect.CERRAR();
-        
+    }
     
+    private boolean checkProducto(){ 
+        
+        try {
+        //Para ver si el producto ya existe en la bd
+        
+            boolean h=false; //Si se hallo coincidencia
+            conect.CONECTAR();
+            ResultSet rs = conect.CONSULTAR("Select * from producto WHERE descripcion='"+this.txtDescP.getText().toUpperCase()+"';");
+            while(rs.next()){
+                h=true;
+            }
+            conect.CERRAR();
+            return h;
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(PRODUCTO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 
     /**
@@ -389,43 +409,48 @@ public class PRODUCTO extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         boolean sql;//Si se ejecuta bien la sentencia o no.
         if(Integer.parseInt(this.txtCantP.getText()) >=0 && Double.parseDouble(this.txtPrecioP.getText().replace(",", "."))>=0){
-            conect.CONECTAR();
-            int activo = this.activoP.isSelected()?1:0;
-            if(this.tDatosP.getSelectedRow()==-1){
-                if(!txtIDP.getText().equals("")&&!this.txtDescP.getText().equals("") && !this.txtCantP.getText().equals("") && !this.txtPrecioP.getText().equals("")){
-                    sql=conect.EJECUTAR("INSERT INTO producto(descripcion, id_tipo, id_material, precio, cantidad, activo) VALUES('"+txtDescP.getText()+"', '"+this.comboTP.getSelectedItem().toString()+"', '"+this.comboMATP.getSelectedItem().toString()+"', '"+this.txtPrecioP.getText().replace(",", ".")+"', "+this.txtCantP.getText()+", "+activo+");");
-                    if(sql){
-                         JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
-                        try {
-                            limpiar();
-                        } catch (SQLException ex) {
-                            Logger.getLogger(PRODUCTO.class.getName()).log(Level.SEVERE, null, ex);
+            if(this.checkProducto() && this.tDatosP.getSelectedRow()==-1){
+                JOptionPane.showMessageDialog(null,"Un producto ya existe con ese nombre. Imposible guardar o modificar nombre de producto!");
+            } else {
+                conect.CONECTAR();
+                int activo = this.activoP.isSelected()?1:0;
+                if(this.tDatosP.getSelectedRow()==-1){
+                    if(!txtIDP.getText().equals("")&&!this.txtDescP.getText().equals("") && !this.txtCantP.getText().equals("") && !this.txtPrecioP.getText().equals("")){
+                        sql=conect.EJECUTAR("INSERT INTO producto(descripcion, id_tipo, id_material, precio, cantidad, activo) VALUES('"+txtDescP.getText().toUpperCase()+"', '"+this.comboTP.getSelectedItem().toString()+"', '"+this.comboMATP.getSelectedItem().toString()+"', '"+this.txtPrecioP.getText().replace(",", ".")+"', "+this.txtCantP.getText()+", "+activo+");");
+                        if(sql){
+                             JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
+                            try {
+                                limpiar();
+                            } catch (SQLException ex) {
+                                Logger.getLogger(PRODUCTO.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Campos sin llenar!");
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Campos sin llenar!");
-                }
-            } else {
-                if(this.txtDescP.getText().equals("") || this.txtPrecioP.getText().equals("") || this.txtCantP.getText().equals("") || this.txtPrecioP.getText().equals("")){
-                    JOptionPane.showMessageDialog(null,"Datos a modificar incompletos");
-                } else{
-                    conect.CONECTAR();
-                    sql=conect.EJECUTAR("UPDATE producto SET descripcion='"+this.txtDescP.getText()+"', precio='"+this.txtPrecioP.getText().replace(",", ".")+"', cantidad='"+this.txtCantP.getText()+"', activo='"+activo+"', id_tipo="+this.comboTP.getSelectedItem().toString()+", id_material="+this.comboMATP.getSelectedItem().toString()+" WHERE id_producto='"+this.txtIDP.getText()+"';");
-                    conect.CERRAR();      
-                    if(sql){
-                        JOptionPane.showMessageDialog(null,"Datos modificados correctamente!");
-                        try {
-                            this.limpiar();
-                        } catch (SQLException ex) {
-                            Logger.getLogger(PRODUCTO.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        
-                    }
-                    
+                    if(this.txtDescP.getText().equals("") || this.txtPrecioP.getText().equals("") || this.txtCantP.getText().equals("") || this.txtPrecioP.getText().equals("")){
+                        JOptionPane.showMessageDialog(null,"Datos a modificar incompletos");
+                    } else{
+                        conect.CONECTAR();
+                        sql=conect.EJECUTAR("UPDATE producto SET descripcion='"+this.txtDescP.getText().toUpperCase()+"', precio='"+this.txtPrecioP.getText()+"', cantidad='"+this.txtCantP.getText()+"', activo='"+activo+"', id_tipo='"+this.comboTP.getSelectedItem().toString()+"', id_material='"+this.comboMATP.getSelectedItem().toString()+"' WHERE id_producto='"+this.txtIDP.getText()+"';");
+                        conect.CERRAR();      
+                        if(sql){
+                            JOptionPane.showMessageDialog(null,"Datos modificados correctamente!");
+                            try {
+                                this.limpiar();
+                            } catch (SQLException ex) {
+                                Logger.getLogger(PRODUCTO.class.getName()).log(Level.SEVERE, null, ex);
+                            }
 
+                        }
+
+
+                    }
                 }
+                conect.CERRAR();
             }
-            conect.CERRAR();
+                
             this.checkGrid();
         
         } else {

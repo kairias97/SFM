@@ -878,7 +878,7 @@ public class MENUSFM extends javax.swing.JFrame {
 
     private void FacturarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FacturarActionPerformed
         // TODO add your handling code here:
-        FACTURA f = new FACTURA();
+        FACTURA f = new FACTURA(this.u);
         f.setVisible(true);
         this.desktopPane.add(f);
     }//GEN-LAST:event_FacturarActionPerformed
