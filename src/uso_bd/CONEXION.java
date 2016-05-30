@@ -33,7 +33,7 @@ public class CONEXION { //Esta clase puede llamarse conexion
             }
         }
         catch(SQLException ex){
-            System.out.println("ERROR DE CONEXION A: "+this.url);
+            System.out.println("ERROR DE CONEXION A: "+this.url+"\n Codigo: "+ex.getMessage());
         }
         catch(ClassNotFoundException ex){ //Para error de SQL
             System.out.println(ex);

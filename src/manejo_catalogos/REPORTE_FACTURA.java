@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat.Field;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
@@ -28,14 +29,34 @@ public class REPORTE_FACTURA extends javax.swing.JInternalFrame {
      * Creates new form REPORTE_FACTURA
      */
     CONEXION conect;
-    
+    ArrayList <String> idpago;
+    //ArrayList <String> npago;
     public REPORTE_FACTURA() {
         initComponents();
         conect = new CONEXION();
+        idpago = new ArrayList();
+        //npago = new ArrayList();
         this.set_Intervalos();
-        this.updateGridFactura();
+        this.cargarCombo();
         this.agregar_ListenerF(this.f_Inicio);
         this.agregar_ListenerF(this.f_Fin);
+        this.updateGridFactura();
+        
+    }
+    private void cargarCombo(){
+        idpago.clear();
+        conect.CONECTAR();
+        this.comboPago.removeAllItems();
+        ResultSet rs = conect.CONSULTAR("Select*from pago ORDER BY nombre ASC");
+        try {
+            while(rs.next()){
+                this.idpago.add((String) rs.getString("id_pago"));
+                this.comboPago.addItem((String) rs.getString("nombre"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(REPORTE_FACTURA.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        conect.CERRAR();
     }
     private void agregar_ListenerF(JDateChooser jdc){
         jdc.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
@@ -91,7 +112,7 @@ public class REPORTE_FACTURA extends javax.swing.JInternalFrame {
             try {
 
                 //String[] titulos = {"CEDULA","NOMBRE","EDAD", "SEXO","TELEFONO","EMAIL", "ACTIVO"};
-
+                int indice = this.comboShow.getSelectedIndex()==0?1:this.comboShow.getSelectedIndex()==1?0:2;
                 DefaultTableModel modelo = (DefaultTableModel) this.tFactR.getModel();
                 DefaultTableModel m = (DefaultTableModel) this.tDF.getModel();
                 int f = this.tFactR.getRowCount();
@@ -111,23 +132,40 @@ public class REPORTE_FACTURA extends javax.swing.JInternalFrame {
                 inicio = sdf.format(f_Inicio.getDate());
                 fin = sdf.format(this.f_Fin.getDate());
                 //Datos de tabla
-                ResultSet rs = conect.CONSULTAR("SELECT \n"+
-                                        "factura.id_factura AS No_FACTURA, \n"+
-                                        "factura.fh_emision AS FH_EMISION, \n"+
-                                        "pago.nombre AS METODO_PAGO, \n"+
-                                        "clientes.nombre AS NOMBRE_CLIENTE, \n"+
-                                        "factura.id_usuario AS CAJERO, \n"+
-                                        "factura.subtotal AS SUBTOTAL, \n"+
-                                        "factura.iva AS IVA, \n"+
-                                        "factura.total AS TOTAL \n"+
-                                        "FROM factura \n"+
-                                        "INNER JOIN pago ON factura.id_pago=pago.id_pago \n"+
-                                        "INNER JOIN clientes ON factura.id_cliente=clientes.id_cliente \n"+
-                                        "WHERE factura.activo='1' AND factura.fh_emision >='"+inicio+"' AND factura.fh_emision<='"+fin+"'"); 
+                
+                String sql="SELECT \n"+
+                                    "factura.id_factura AS No_FACTURA, \n"+
+                                    "factura.fh_emision AS FH_EMISION, \n"+
+                                    "pago.nombre AS METODO_PAGO, \n"+
+                                    "clientes.nombre AS NOMBRE_CLIENTE, \n"+
+                                    "factura.id_usuario AS CAJERO, \n"+
+                                    "factura.subtotal AS SUBTOTAL, \n"+
+                                    "factura.iva AS IVA, \n"+
+                                    "factura.total AS TOTAL \n"+
+                                    "FROM factura \n"+
+                                    "INNER JOIN pago ON factura.id_pago=pago.id_pago \n"+
+                                    "INNER JOIN clientes ON factura.id_cliente=clientes.id_cliente \n";
+                
+                if(indice!=2){
+                    sql+="WHERE factura.activo='"+indice+"' AND factura.fh_emision >='"+inicio+"' AND factura.fh_emision<='"+fin+"'";
+                }
+                else{
+                    sql+="WHERE factura.fh_emision >='"+inicio+"' AND factura.fh_emision<='"+fin+"'";
+                }
+                /*for (int i = 0; i < idpago.size(); i++) {
+                    JOptionPane.showMessageDialog(null, this.idpago.get(i));
+                }*/
+                int s = this.comboPago.getSelectedIndex();
+                if(s!=-1){
+                    sql+=" AND factura.id_pago='"+this.idpago.get(s)+"' \n ORDER BY factura.id_factura ASC;";
+                }
+                
+                boolean nh=false;
+                ResultSet rs = conect.CONSULTAR(sql); 
                 String[] fila = new String[8];
 
                 while(rs.next()){
-
+                        nh=true;
                         fila[0] = (String) rs.getString("No_FACTURA");
                         fila[1] = (String) rs.getString("FH_EMISION");
                         fila[2] = (String) rs.getString("METODO_PAGO");  
@@ -140,7 +178,19 @@ public class REPORTE_FACTURA extends javax.swing.JInternalFrame {
                 }
                 this.tFactR.setModel(modelo);
                 //Para los datos de resumen
-                ResultSet r = conect.CONSULTAR("SELECT SUM(factura.subtotal) AS SUB, SUM(factura.iva) AS IVA, SUM(factura.total) AS TOT FROM factura WHERE factura.activo='1' and factura.fh_emision >='"+inicio+"' and factura.fh_emision<='"+fin+"';");
+                sql="SELECT SUM(factura.subtotal) AS SUB, SUM(factura.iva) AS IVA, SUM(factura.total) AS TOT FROM factura ";
+                 if(indice!=2){
+                    sql+="WHERE factura.activo='"+indice+"' AND factura.fh_emision >='"+inicio+"' AND factura.fh_emision<='"+fin+"'";
+                }
+                else{
+                    sql+="WHERE factura.fh_emision >='"+inicio+"' AND factura.fh_emision<='"+fin+"'";
+                }
+                 int s2 = this.comboPago.getSelectedIndex();
+                 if(s2!=-1){
+                     sql+=" AND factura.id_pago='"+this.idpago.get(this.comboPago.getSelectedIndex())+"';";
+                 }
+                 
+                ResultSet r = conect.CONSULTAR(sql);
                 String subt="", iva="", t="";
                 boolean h =false;
                 while(r.next()){
@@ -149,7 +199,7 @@ public class REPORTE_FACTURA extends javax.swing.JInternalFrame {
                     t = (String) r.getString("TOT");
                     h=true;
                 }
-                if(!h){
+                if(!nh){
                     this.ST.setText("0.00");
                     this.IVA.setText("0.00");
                     this.IT.setText("0.00");
@@ -199,6 +249,10 @@ public class REPORTE_FACTURA extends javax.swing.JInternalFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tDF = new javax.swing.JTable();
         btnAnularF = new javax.swing.JButton();
+        comboShow = new javax.swing.JComboBox();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        comboPago = new javax.swing.JComboBox();
 
         setClosable(true);
         setTitle("REPORTE DE FACTURAS REALIZADAS");
@@ -439,6 +493,25 @@ public class REPORTE_FACTURA extends javax.swing.JInternalFrame {
             }
         });
 
+        comboShow.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SOLO ACTIVAS", "SOLO INACTIVAS", "MOSTRAR TODAS" }));
+        comboShow.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboShowItemStateChanged(evt);
+            }
+        });
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel4.setText("Mostrar:");
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel6.setText("Método de Pago:");
+
+        comboPago.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboPagoItemStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -451,12 +524,21 @@ public class REPORTE_FACTURA extends javax.swing.JInternalFrame {
                         .addComponent(tiempo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(resumen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(comboPago, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnAnularF)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel4))
+                            .addComponent(jLabel6))
+                        .addGap(18, 18, Short.MAX_VALUE)
+                        .addComponent(comboShow, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(218, 218, 218)
-                .addComponent(btnAnularF)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -470,8 +552,16 @@ public class REPORTE_FACTURA extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnAnularF)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(comboPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnAnularF))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel4)
+                        .addComponent(comboShow, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         pack();
@@ -538,19 +628,34 @@ public class REPORTE_FACTURA extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_btnAnularFActionPerformed
 
+    private void comboShowItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboShowItemStateChanged
+        // TODO add your handling code here:
+        this.updateGridFactura();
+        
+    }//GEN-LAST:event_comboShowItemStateChanged
+
+    private void comboPagoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboPagoItemStateChanged
+        // TODO add your handling code here:
+        this.updateGridFactura();
+    }//GEN-LAST:event_comboPagoItemStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel IT;
     private javax.swing.JLabel IVA;
     private javax.swing.JLabel ST;
     private javax.swing.JButton btnAnularF;
+    private javax.swing.JComboBox comboPago;
+    private javax.swing.JComboBox comboShow;
     private com.toedter.calendar.JDateChooser f_Fin;
     private com.toedter.calendar.JDateChooser f_Inicio;
     private javax.swing.JPanel facturas;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

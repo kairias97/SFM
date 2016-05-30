@@ -7,6 +7,7 @@ package manejo_catalogos;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,27 +28,33 @@ public class PRODUCTO extends javax.swing.JInternalFrame {
      */
     CONEXION conect;
     int a; //de activo
+    ArrayList <String> idTipo;
+    ArrayList <String> idMat;
     
     public PRODUCTO() throws SQLException {
         Locale.setDefault(new Locale("en", "US"));
         initComponents();
+        idTipo = new ArrayList();
+        idMat = new ArrayList();
         conect = new CONEXION();
         conect.CONECTAR();
         limpiar();
         this.a=1;
         updateGrid("Select * from producto WHERE activo='"+this.a+"';");
         this.txtIDP.setEditable(false);
-        this.setComboModel(this.comboTP, "Select id_tipo From tipo WHERE activo=1", "id_tipo");
-        this.setComboModel(this.comboMATP, "Select id_material From material WHERE activo=1", "id_material");
+        this.setComboModel(this.comboTP, "Select * From tipo WHERE activo=1 ORDER BY descripcion ASC", "id_tipo","descripcion", this.idTipo);
+        this.setComboModel(this.comboMATP, "Select * From material WHERE activo=1 ORDER BY descripcion ASC", "id_material", "descripcion",this.idMat);
         conect.CERRAR();
     }
     
-    private void setComboModel(JComboBox cb, String sql, String campo) throws SQLException{
+    private void setComboModel(JComboBox cb, String sql, String id, String desc, ArrayList l) throws SQLException{
         this.conect.CONECTAR();
         ResultSet rs= this.conect.CONSULTAR(sql);
+        l.clear();
         cb.removeAllItems();
         while(rs.next()){
-            cb.addItem((String) rs.getString(campo));
+            cb.addItem((String) rs.getString(desc));
+            l.add((String) rs.getString(id));
         }
         this.conect.CERRAR();
     
@@ -69,8 +76,8 @@ public class PRODUCTO extends javax.swing.JInternalFrame {
             }
             this.txtIDP.setText(Integer.toString(auto));
             this.txtDescP.setText("");
-            this.setComboModel(this.comboTP, "Select id_tipo From tipo WHERE activo=1", "id_tipo");
-            this.setComboModel(this.comboMATP, "Select id_material From material WHERE activo=1", "id_material");
+             this.setComboModel(this.comboTP, "Select * From tipo WHERE activo=1 ORDER BY descripcion ASC", "id_tipo","descripcion", this.idTipo);
+        this.setComboModel(this.comboMATP, "Select * From material WHERE activo=1 ORDER BY descripcion ASC", "id_material", "descripcion",this.idMat);
             this.txtPrecioP.setText("");
             this.txtCantP.setText("");
             this.activoP.setSelected(false);
@@ -160,6 +167,7 @@ public class PRODUCTO extends javax.swing.JInternalFrame {
         btnSave = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         btnShow = new javax.swing.JButton();
+        btnRefresh = new javax.swing.JButton();
 
         setClosable(true);
         setTitle("CATALOGO DE PRODUCTOS");
@@ -260,6 +268,13 @@ public class PRODUCTO extends javax.swing.JInternalFrame {
             }
         });
 
+        btnRefresh.setText("Actualizar tabla");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -278,7 +293,9 @@ public class PRODUCTO extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnDelete)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnShow))
+                        .addComponent(btnShow)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnRefresh))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 502, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -338,7 +355,8 @@ public class PRODUCTO extends javax.swing.JInternalFrame {
                     .addComponent(btnNew)
                     .addComponent(btnSave)
                     .addComponent(btnDelete)
-                    .addComponent(btnShow))
+                    .addComponent(btnShow)
+                    .addComponent(btnRefresh))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26))
@@ -416,7 +434,7 @@ public class PRODUCTO extends javax.swing.JInternalFrame {
                 int activo = this.activoP.isSelected()?1:0;
                 if(this.tDatosP.getSelectedRow()==-1){
                     if(!txtIDP.getText().equals("")&&!this.txtDescP.getText().equals("") && !this.txtCantP.getText().equals("") && !this.txtPrecioP.getText().equals("")){
-                        sql=conect.EJECUTAR("INSERT INTO producto(descripcion, id_tipo, id_material, precio, cantidad, activo) VALUES('"+txtDescP.getText().toUpperCase()+"', '"+this.comboTP.getSelectedItem().toString()+"', '"+this.comboMATP.getSelectedItem().toString()+"', '"+this.txtPrecioP.getText().replace(",", ".")+"', "+this.txtCantP.getText()+", "+activo+");");
+                        sql=conect.EJECUTAR("INSERT INTO producto(descripcion, id_tipo, id_material, precio, cantidad, activo) VALUES('"+txtDescP.getText().toUpperCase()+"', '"+this.idTipo.get(this.comboTP.getSelectedIndex())+"', '"+this.idMat.get(this.comboMATP.getSelectedIndex())+"', '"+this.txtPrecioP.getText().replace(",", ".")+"', "+this.txtCantP.getText()+", "+activo+");");
                         if(sql){
                              JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
                             try {
@@ -433,7 +451,7 @@ public class PRODUCTO extends javax.swing.JInternalFrame {
                         JOptionPane.showMessageDialog(null,"Datos a modificar incompletos");
                     } else{
                         conect.CONECTAR();
-                        sql=conect.EJECUTAR("UPDATE producto SET descripcion='"+this.txtDescP.getText().toUpperCase()+"', precio='"+this.txtPrecioP.getText()+"', cantidad='"+this.txtCantP.getText()+"', activo='"+activo+"', id_tipo='"+this.comboTP.getSelectedItem().toString()+"', id_material='"+this.comboMATP.getSelectedItem().toString()+"' WHERE id_producto='"+this.txtIDP.getText()+"';");
+                        sql=conect.EJECUTAR("UPDATE producto SET descripcion='"+this.txtDescP.getText().toUpperCase()+"', precio='"+this.txtPrecioP.getText()+"', cantidad='"+this.txtCantP.getText()+"', activo='"+activo+"', id_tipo='"+idTipo.get(this.comboTP.getSelectedIndex())+"', id_material='"+idMat.get(this.comboMATP.getSelectedIndex())+"' WHERE id_producto='"+this.txtIDP.getText()+"';");
                         conect.CERRAR();      
                         if(sql){
                             JOptionPane.showMessageDialog(null,"Datos modificados correctamente!");
@@ -465,18 +483,40 @@ public class PRODUCTO extends javax.swing.JInternalFrame {
         int fila = this.tDatosP.getSelectedRow();
         this.txtIDP.setText((String) this.tDatosP.getValueAt(fila, 0));
         this.txtDescP.setText((String) this.tDatosP.getValueAt(fila, 1));
-        this.comboTP.setSelectedItem((String) this.tDatosP.getValueAt(fila, 2));
-        this.comboMATP.setSelectedItem((String) this.tDatosP.getValueAt(fila, 3));
         this.txtPrecioP.setText((String) this.tDatosP.getValueAt(fila, 4));
         this.txtCantP.setText((String) this.tDatosP.getValueAt(fila, 5));
-        this.activoP.setSelected((String) this.tDatosP.getValueAt(fila, 6)=="ACTIVO"?true:false);
+        this.activoP.setSelected((String) this.tDatosP.getValueAt(fila, 6)=="ACTIVO");
+        int x=0, y=0;
+        for (int i = 0; i < idTipo.size(); i++) {
+            if(idTipo.get(i).equals((String) this.tDatosP.getValueAt(fila, 2))){
+                x=i;//Para el lugar de index en donde se encuentra en la lista
+            }
+        }
+        for (int i = 0; i < idMat.size(); i++) {
+            if(idMat.get(i).equals((String) this.tDatosP.getValueAt(fila, 3))){
+                y=i;//Para el lugar de index en donde se encuentra en la lista
+            }
+        }
+        this.comboTP.setSelectedIndex(x);
+        this.comboMATP.setSelectedIndex(y);
     }//GEN-LAST:event_tDatosPMouseClicked
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        try {
+            // TODO add your handling code here:
+            this.limpiar();
+        } catch (SQLException ex) {
+            Logger.getLogger(PRODUCTO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.checkGrid();
+    }//GEN-LAST:event_btnRefreshActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox activoP;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnNew;
+    private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnShow;
     private javax.swing.JComboBox comboMATP;

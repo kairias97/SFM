@@ -120,7 +120,7 @@ public class LOGIN extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         this.conect.CONECTAR();
-        boolean h=false, dAdmin=false;
+        boolean h=false, dAdmin=false, ep = false;
         try{
             String pass = new String(this.txtClave.getPassword());
             ResultSet rs = conect.CONSULTAR("Select * from usuarios WHERE id_usuario='"+this.txtUser.getText()+"' and clave='"+pass+"' and activo=1;");
@@ -130,10 +130,13 @@ public class LOGIN extends javax.swing.JFrame {
             }
         } catch(SQLException e){
             JOptionPane.showMessageDialog(null,e.getMessage());
+        } catch(NullPointerException ex){
+            JOptionPane.showMessageDialog(null, "Problema en la conexión!!");
+            ep=true;
         }
-        if(!h){
+        if(!h && !ep){
             JOptionPane.showMessageDialog(null, "Usuario o clave inválidos");
-        } else{
+        } else if(h && !ep){
             String clave = new String(this.txtClave.getPassword());
             u= new USER(this.txtUser.getText(), clave,dAdmin);
             MENUSFM m = new MENUSFM(this.u);

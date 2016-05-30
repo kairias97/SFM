@@ -5,7 +5,6 @@
  */
 package manejo_catalogos;
 
-import static com.sun.xml.internal.fastinfoset.alphabet.BuiltInRestrictedAlphabets.table;
 import inicio_sesion.USER;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -187,7 +186,7 @@ public class FACTURA extends javax.swing.JInternalFrame{
         jLabel8 = new javax.swing.JLabel();
         comboClienteF = new javax.swing.JComboBox();
         jLabel10 = new javax.swing.JLabel();
-        comboPagoF = new javax.swing.JComboBox<>();
+        comboPagoF = new javax.swing.JComboBox<String>();
         jPanel2 = new javax.swing.JPanel();
         btnAddCarrito = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
@@ -291,7 +290,7 @@ public class FACTURA extends javax.swing.JInternalFrame{
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(idFactura))
+                            .addComponent(idFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(19, 19, 19)
                         .addComponent(jLabel1)
                         .addGap(20, 20, 20)
@@ -577,7 +576,7 @@ public class FACTURA extends javax.swing.JInternalFrame{
                             Object o;
                             o=tCarritoF.getValueAt(i, 2);
                             ce=Integer.parseInt(o.toString());
-                            if(ce+c > (int)this.cantidad.get(this.comboProdF.getSelectedIndex())){
+                            if(ce+c > (int)this.cantidad.get(this.comboProdF.getSelectedIndex())|| (int)this.cantidad.get(this.comboProdF.getSelectedIndex())-(c+ce)<0){
                                 JOptionPane.showMessageDialog(null, "Imposible incrementar cantidad deseada. No hay suficiente de este producto para abastecer la compra!");
                             } else{
                                 DecimalFormat df = new DecimalFormat("#.00"); 
@@ -597,17 +596,24 @@ public class FACTURA extends javax.swing.JInternalFrame{
            if(this.cantP.getText().equals("") || Integer.parseInt(this.cantP.getText()) <=0){
                JOptionPane.showMessageDialog(null, "Cantidad a agregar inválida!");
            } else{
-               DefaultTableModel model = (DefaultTableModel) this.tCarritoF.getModel();
-                String[] fila = new String[4];
-                fila[0]=this.nombreProd.get(this.comboProdF.getSelectedIndex());
-                fila[1]=this.precioP.get(this.comboProdF.getSelectedIndex()).toString();
-                fila[2]=this.cantP.getText();
-                Double subtotal;
-                DecimalFormat df = new DecimalFormat("#.00"); 
-                subtotal = Double.parseDouble(df.format(Double.parseDouble(fila[1]) * Double.parseDouble(fila[2])));
-                fila[3]=subtotal.toString();
-                model.addRow(fila);
-                this.updateMontos();
+               int cd=Integer.parseInt(this.cantP.getText());//cantidad deseada
+               int cdisp = this.cantidad.get(this.comboProdF.getSelectedIndex());
+               if(cdisp < cd){
+                   JOptionPane.showMessageDialog(null, "Cantidad insuficiente del producto seleccionado!");
+               } else{
+                   DefaultTableModel model = (DefaultTableModel) this.tCarritoF.getModel();
+                    String[] fila = new String[4];
+                    fila[0]=this.nombreProd.get(this.comboProdF.getSelectedIndex());
+                    fila[1]=this.precioP.get(this.comboProdF.getSelectedIndex()).toString();
+                    fila[2]=this.cantP.getText();
+                    Double subtotal;
+                    DecimalFormat df = new DecimalFormat("#.00"); 
+                    subtotal = Double.parseDouble(df.format(Double.parseDouble(fila[1]) * Double.parseDouble(fila[2])));
+                    fila[3]=subtotal.toString();
+                    model.addRow(fila);
+                    this.updateMontos();
+               }
+               
            }
            
        }

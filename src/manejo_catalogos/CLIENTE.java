@@ -9,6 +9,7 @@ import java.net.URL;
 import uso_bd.CONEXION;
 import java.sql.ResultSet;
 import javax.swing.ImageIcon;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -26,13 +27,16 @@ public class CLIENTE extends javax.swing.JInternalFrame {
     boolean valido;//Para validar si la info es correcta
     public CLIENTE() {
         initComponents();
+        this.txtIDCliente.setFocusLostBehavior(JFormattedTextField.PERSIST);
+        this.txtTlfDC.setFocusLostBehavior(JFormattedTextField.PERSIST);
+        this.txtEdadDC.setFocusLostBehavior(JFormattedTextField.PERSIST);
         conect = new CONEXION();
         conect.CONECTAR();
         limpiar();
         a=1;
-        updateGrid("Select * from clientes WHERE activo='"+this.a+"';");
+        updateGrid("Select * from clientes WHERE activo='"+this.a+"' ORDER BY nombre ASC");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        this.idcliente.setEditable(true);
+        this.txtIDCliente.setEditable(true);
         valido=false;
        
         
@@ -77,21 +81,21 @@ public class CLIENTE extends javax.swing.JInternalFrame {
     
     private void checkGrid(){ //Para saber que mostrar en el Grid
         if(this.a==0){
-            updateGrid("select * from clientes;");
+            updateGrid("select * from clientes ORDER BY nombre ASC;");
         } else {
-            updateGrid("select * from clientes WHERE activo=1;");
+            updateGrid("select * from clientes WHERE activo=1 ORDER BY nombre ASC;");
         }
     }
         public void limpiar(){
             
-            this.idcliente.setText("");
+            this.txtIDCliente.setText("");
             this.nombre.setText("");
             this.txtEdadDC.setText("");
             this.sexo.setSelectedIndex(0);
             this.txtTlfDC.setText("");
             this.email.setText("");
             this.activo.setSelected(false);
-            this.idcliente.requestFocus();
+            this.txtIDCliente.requestFocus();
             
         }
         /*
@@ -135,10 +139,11 @@ public class CLIENTE extends javax.swing.JInternalFrame {
         activo = new javax.swing.JCheckBox();
         jLabel4 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        idcliente = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         txtEdadDC = new javax.swing.JFormattedTextField();
         txtTlfDC = new javax.swing.JFormattedTextField();
+        txtIDCliente = new javax.swing.JFormattedTextField();
+        btnRefresh = new javax.swing.JButton();
 
         setClosable(true);
         setTitle("CATALOGO DE CLIENTES");
@@ -254,23 +259,29 @@ public class CLIENTE extends javax.swing.JInternalFrame {
 
         jLabel7.setText("Edad:");
 
-        idcliente.setEditable(false);
-        idcliente.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                idclienteFocusLost(evt);
-            }
-        });
-        idcliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                idclienteActionPerformed(evt);
-            }
-        });
-
         jLabel8.setText("Sexo:");
 
-        txtEdadDC.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        txtEdadDC.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
 
         txtTlfDC.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+
+        try {
+            txtIDCliente.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###-######-####U")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        txtIDCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtIDClienteActionPerformed(evt);
+            }
+        });
+
+        btnRefresh.setText("Actualizar Tabla");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -278,6 +289,14 @@ public class CLIENTE extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addComponent(jLabel6)
+                        .addGap(18, 18, 18)
+                        .addComponent(activo))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 491, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -288,7 +307,9 @@ public class CLIENTE extends javax.swing.JInternalFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(deleteDC)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnMostrar))
+                                .addComponent(btnMostrar)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnRefresh))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(12, 12, 12)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -306,22 +327,14 @@ public class CLIENTE extends javax.swing.JInternalFrame {
                                             .addComponent(jLabel7))
                                         .addGap(18, 18, 18)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(idcliente, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
-                                            .addComponent(nombre)
+                                            .addComponent(nombre, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
                                             .addComponent(email)
                                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                                 .addComponent(jLabel5)
                                                 .addGap(33, 33, 33))
                                             .addComponent(txtEdadDC, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtTlfDC)))))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addComponent(jLabel6)
-                        .addGap(18, 18, 18)
-                        .addComponent(activo))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 491, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(txtTlfDC)
+                                            .addComponent(txtIDCliente))))))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -332,7 +345,7 @@ public class CLIENTE extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(idcliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtIDCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -362,10 +375,11 @@ public class CLIENTE extends javax.swing.JInternalFrame {
                     .addComponent(newDC)
                     .addComponent(saveDC)
                     .addComponent(deleteDC)
-                    .addComponent(btnMostrar))
+                    .addComponent(btnMostrar)
+                    .addComponent(btnRefresh))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         pack();
@@ -378,16 +392,16 @@ public class CLIENTE extends javax.swing.JInternalFrame {
     private void newDCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newDCActionPerformed
         // TODO add your handling code here:
         conect.CONECTAR();
-        this.idcliente.setEditable(true);
+        this.txtIDCliente.setEditable(true);
         limpiar();
         conect.CERRAR();
     }//GEN-LAST:event_newDCActionPerformed
 
     private void tDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tDatosMouseClicked
         // TODO add your handling code here:
-        this.idcliente.setEditable(false);
+        this.txtIDCliente.setEditable(false);
         int fila = this.tDatos.getSelectedRow();
-        this.idcliente.setText((String) this.tDatos.getValueAt(fila, 0));
+        this.txtIDCliente.setText((String) this.tDatos.getValueAt(fila, 0));
         this.nombre.setText((String) this.tDatos.getValueAt(fila, 1));
         this.txtEdadDC.setText((String) this.tDatos.getValueAt(fila, 2));
         this.sexo.setSelectedIndex((String) this.tDatos.getValueAt(fila, 3)=="HOMBRE"?0:1);
@@ -399,17 +413,17 @@ public class CLIENTE extends javax.swing.JInternalFrame {
     private void saveDCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveDCActionPerformed
         // TODO add your handling code here:
         boolean sql;//Si se ejecuta bien la sentencia o no.
-        if(Integer.parseInt(this.txtEdadDC.getText()) < 135 && Integer.parseInt(this.txtEdadDC.getText()) > 16 && email.getText().length() <= 60 && idcliente.getText().length() <=16 && nombre.getText().length() <=60 ){
+        if(Integer.parseInt(this.txtEdadDC.getText()) < 135 && Integer.parseInt(this.txtEdadDC.getText()) > 16 && email.getText().length() <= 60 && txtIDCliente.getText().length() ==16 && nombre.getText().length() <=60 ){
             conect.CONECTAR();
             int activo = this.activo.isSelected()?1:0;
             String sexo = this.sexo.getSelectedIndex()==0?"1":"0";
             if(this.tDatos.getSelectedRow()==-1){
-                if(!idcliente.getText().equals("")&&!nombre.getText().equals("") && !txtTlfDC.getText().equals("") && !email.getText().equals("") && !txtEdadDC.getText().equals("")){
-                    sql=conect.EJECUTAR("INSERT INTO clientes(id_cliente, nombre, telefono, email, activo, edad, sexo) VALUES('"+this.idcliente.getText()+"', '"+nombre.getText().toUpperCase()+"', '"+txtTlfDC.getText()+"', '"+email.getText()+"', '"+activo+"', "+this.txtEdadDC.getText()+", "+sexo+");");
+                if(!this.txtIDCliente.getText().equals("")&&!nombre.getText().equals("") && !txtTlfDC.getText().equals("") && !email.getText().equals("") && !txtEdadDC.getText().equals("")){
+                    sql=conect.EJECUTAR("INSERT INTO clientes(id_cliente, nombre, telefono, email, activo, edad, sexo) VALUES('"+this.txtIDCliente.getText()+"', '"+nombre.getText().toUpperCase()+"', '"+txtTlfDC.getText()+"', '"+email.getText()+"', '"+activo+"', "+this.txtEdadDC.getText()+", "+sexo+");");
                     if(sql){
                          JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
                          limpiar();
-                         this.idcliente.setEditable(true);
+                         this.txtIDCliente.setEditable(true);
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "Campos sin llenar!");
@@ -419,12 +433,12 @@ public class CLIENTE extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null,"Datos a modificar incompletos");
                 } else{
                     conect.CONECTAR();
-                    sql=conect.EJECUTAR("UPDATE clientes SET nombre='"+this.nombre.getText().toUpperCase()+"', telefono='"+this.txtTlfDC.getText()+"', email='"+this.email.getText()+"', activo='"+activo+"', edad="+txtEdadDC.getText()+", sexo="+sexo+" WHERE id_cliente='"+this.idcliente.getText()+"';");
+                    sql=conect.EJECUTAR("UPDATE clientes SET nombre='"+this.nombre.getText().toUpperCase()+"', telefono='"+this.txtTlfDC.getText()+"', email='"+this.email.getText()+"', activo='"+activo+"', edad="+txtEdadDC.getText()+", sexo="+sexo+" WHERE id_cliente='"+this.txtIDCliente.getText()+"';");
                     conect.CERRAR();      
                     if(sql){
                         JOptionPane.showMessageDialog(null,"Datos modificados correctamente!");
                         this.limpiar();
-                        this.idcliente.setEditable(true);
+                        this.txtIDCliente.setEditable(true);
                     }
                     
 
@@ -444,8 +458,8 @@ public class CLIENTE extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         boolean sql;//si se realiza bien la sentencia
         conect.CONECTAR();
-        if(!idcliente.getText().equals("")){
-            sql=conect.EJECUTAR("DELETE FROM clientes WHERE id_cliente="+idcliente.getText());
+        if(!txtIDCliente.getText().equals("")){
+            sql=conect.EJECUTAR("DELETE FROM clientes WHERE id_cliente='"+txtIDCliente.getText()+"';");
             if(sql){
                 JOptionPane.showMessageDialog(null, "Datos eliminados correctamente!");
             }    
@@ -465,7 +479,7 @@ public class CLIENTE extends javax.swing.JInternalFrame {
             boolean activo = this.tDatos.getValueAt(f, 6).equals("ACTIVO");
             if(!activo){
                 limpiar();
-                this.idcliente.setEditable(true);
+                this.txtIDCliente.setEditable(true);
             }
         }
         if(this.a==1){
@@ -478,22 +492,6 @@ public class CLIENTE extends javax.swing.JInternalFrame {
         this.checkGrid();
 
     }//GEN-LAST:event_btnMostrarMouseClicked
-
-    private void idclienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idclienteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_idclienteActionPerformed
-
-    private void idclienteFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_idclienteFocusLost
-        // TODO add your handling code here:
-        /*
-        if(this.idcliente.getText().length() > 16){
-            JOptionPane.showMessageDialog(null, "Su ID de cedula no debe exceder los 16 caracteres!");
-            this.valido=false;
-            this.idcliente.requestFocus();
-        } else{
-            this.valido=true;
-        }*/
-    }//GEN-LAST:event_idclienteFocusLost
 
     private void nombreFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nombreFocusLost
         // TODO add your handling code here:
@@ -524,13 +522,23 @@ public class CLIENTE extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnMostrarActionPerformed
 
+    private void txtIDClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIDClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtIDClienteActionPerformed
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        // TODO add your handling code here:
+        this.limpiar();
+        this.checkGrid();
+    }//GEN-LAST:event_btnRefreshActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox activo;
     private javax.swing.JButton btnMostrar;
+    private javax.swing.JButton btnRefresh;
     private javax.swing.JButton deleteDC;
     private javax.swing.JTextField email;
-    private javax.swing.JTextField idcliente;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -546,6 +554,7 @@ public class CLIENTE extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox sexo;
     private javax.swing.JTable tDatos;
     private javax.swing.JFormattedTextField txtEdadDC;
+    private javax.swing.JFormattedTextField txtIDCliente;
     private javax.swing.JFormattedTextField txtTlfDC;
     // End of variables declaration//GEN-END:variables
 }
