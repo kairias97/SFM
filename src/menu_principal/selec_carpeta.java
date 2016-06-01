@@ -47,6 +47,7 @@ public class selec_carpeta extends javax.swing.JInternalFrame {
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/save.png"))); // NOI18N
 
         respaldo.setDialogType(javax.swing.JFileChooser.SAVE_DIALOG);
+        respaldo.setApproveButtonText("Guardar respaldo");
         respaldo.setDialogTitle("");
         respaldo.setFileSelectionMode(javax.swing.JFileChooser.DIRECTORIES_ONLY);
         respaldo.addActionListener(new java.awt.event.ActionListener() {

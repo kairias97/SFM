@@ -47,6 +47,7 @@
     <Component class="javax.swing.JFileChooser" name="respaldo">
       <Properties>
         <Property name="dialogType" type="int" value="1"/>
+        <Property name="approveButtonText" type="java.lang.String" value="Guardar respaldo"/>
         <Property name="dialogTitle" type="java.lang.String" value=""/>
         <Property name="fileSelectionMode" type="int" value="1"/>
       </Properties>

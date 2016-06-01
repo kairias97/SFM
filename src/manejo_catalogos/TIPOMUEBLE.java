@@ -92,11 +92,8 @@ public class TIPOMUEBLE extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         activoTM = new javax.swing.JCheckBox();
         txtIDTM = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtDescripcionTM = new javax.swing.JTextArea();
         saveTM = new javax.swing.JButton();
         deleteTM = new javax.swing.JButton();
         newTM = new javax.swing.JButton();
@@ -104,6 +101,7 @@ public class TIPOMUEBLE extends javax.swing.JInternalFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tDatosTM = new javax.swing.JTable();
         btnRefresh = new javax.swing.JButton();
+        txtDescripcionTM = new javax.swing.JTextField();
 
         setClosable(true);
         setTitle("CATALOGO TIPO DE MUEBLES");
@@ -112,11 +110,14 @@ public class TIPOMUEBLE extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Tipo de Muebles");
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel2.setText("ID Tipo:");
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel3.setText("Descripción:");
 
-        jLabel4.setText("Activo:");
+        activoTM.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        activoTM.setText("Activo");
 
         txtIDTM.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -124,15 +125,7 @@ public class TIPOMUEBLE extends javax.swing.JInternalFrame {
             }
         });
 
-        txtDescripcionTM.setColumns(20);
-        txtDescripcionTM.setRows(5);
-        txtDescripcionTM.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtDescripcionTMFocusLost(evt);
-            }
-        });
-        jScrollPane1.setViewportView(txtDescripcionTM);
-
+        saveTM.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/guardar.png"))); // NOI18N
         saveTM.setText("Guardar");
         saveTM.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -140,6 +133,7 @@ public class TIPOMUEBLE extends javax.swing.JInternalFrame {
             }
         });
 
+        deleteTM.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/eliminar.png"))); // NOI18N
         deleteTM.setText("Eliminar");
         deleteTM.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -147,6 +141,7 @@ public class TIPOMUEBLE extends javax.swing.JInternalFrame {
             }
         });
 
+        newTM.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/agregar.png"))); // NOI18N
         newTM.setText("Nuevo");
         newTM.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -154,6 +149,7 @@ public class TIPOMUEBLE extends javax.swing.JInternalFrame {
             }
         });
 
+        showTM.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/mostrar.png"))); // NOI18N
         showTM.setText("Mostrar todos");
         showTM.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -190,11 +186,12 @@ public class TIPOMUEBLE extends javax.swing.JInternalFrame {
             tDatosTM.getColumnModel().getColumn(0).setResizable(false);
             tDatosTM.getColumnModel().getColumn(0).setPreferredWidth(100);
             tDatosTM.getColumnModel().getColumn(1).setResizable(false);
-            tDatosTM.getColumnModel().getColumn(1).setPreferredWidth(300);
+            tDatosTM.getColumnModel().getColumn(1).setPreferredWidth(205);
             tDatosTM.getColumnModel().getColumn(2).setResizable(false);
-            tDatosTM.getColumnModel().getColumn(2).setPreferredWidth(110);
+            tDatosTM.getColumnModel().getColumn(2).setPreferredWidth(90);
         }
 
+        btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/refrescar.png"))); // NOI18N
         btnRefresh.setText("Actualizar Tabla");
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -202,70 +199,66 @@ public class TIPOMUEBLE extends javax.swing.JInternalFrame {
             }
         });
 
+        txtDescripcionTM.setText(" ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtIDTM, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(activoTM)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtDescripcionTM, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(txtIDTM, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(148, 148, 148)
-                        .addComponent(jLabel1)))
-                .addGap(52, 52, 52))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 512, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(newTM, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(saveTM, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(deleteTM))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(newTM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(saveTM)
-                        .addGap(18, 18, 18)
-                        .addComponent(deleteTM)
-                        .addGap(18, 18, 18)
-                        .addComponent(showTM, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(showTM, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
                         .addComponent(btnRefresh)))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addGap(20, 20, 20)
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtIDTM, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(activoTM))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtDescripcionTM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(activoTM)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(newTM)
                     .addComponent(saveTM)
-                    .addComponent(deleteTM)
+                    .addComponent(deleteTM))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(showTM)
                     .addComponent(btnRefresh))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         pack();
@@ -363,10 +356,6 @@ public class TIPOMUEBLE extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_txtIDTMFocusLost
 
-    private void txtDescripcionTMFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDescripcionTMFocusLost
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDescripcionTMFocusLost
-
     private void tDatosTMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tDatosTMMouseClicked
         // TODO add your handling code here:
         this.txtIDTM.setEditable(false);
@@ -391,14 +380,12 @@ public class TIPOMUEBLE extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton newTM;
     private javax.swing.JButton saveTM;
     private javax.swing.JButton showTM;
     private javax.swing.JTable tDatosTM;
-    private javax.swing.JTextArea txtDescripcionTM;
+    private javax.swing.JTextField txtDescripcionTM;
     private javax.swing.JTextField txtIDTM;
     // End of variables declaration//GEN-END:variables
 }

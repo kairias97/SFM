@@ -57,6 +57,7 @@ public class REPORTE_FACTURA extends javax.swing.JInternalFrame {
             Logger.getLogger(REPORTE_FACTURA.class.getName()).log(Level.SEVERE, null, ex);
         }
         conect.CERRAR();
+        this.comboPago.addItem("TODOS");
     }
     private void agregar_ListenerF(JDateChooser jdc){
         jdc.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
@@ -111,8 +112,8 @@ public class REPORTE_FACTURA extends javax.swing.JInternalFrame {
             conect.CONECTAR();
             try {
 
-                //String[] titulos = {"CEDULA","NOMBRE","EDAD", "SEXO","TELEFONO","EMAIL", "ACTIVO"};
-                int indice = this.comboShow.getSelectedIndex()==0?1:this.comboShow.getSelectedIndex()==1?0:2;
+               
+                int indice = this.comboShow.getSelectedIndex()==0?1:this.comboShow.getSelectedIndex()==1?0:2;//Para activos, inactivos
                 DefaultTableModel modelo = (DefaultTableModel) this.tFactR.getModel();
                 DefaultTableModel m = (DefaultTableModel) this.tDF.getModel();
                 int f = this.tFactR.getRowCount();
@@ -128,11 +129,11 @@ public class REPORTE_FACTURA extends javax.swing.JInternalFrame {
                 }
                 
                 String inicio="", fin="";
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 inicio = sdf.format(f_Inicio.getDate());
                 fin = sdf.format(this.f_Fin.getDate());
-                //Datos de tabla
                 
+                //Datos de tabla
                 String sql="SELECT \n"+
                                     "factura.id_factura AS No_FACTURA, \n"+
                                     "factura.fh_emision AS FH_EMISION, \n"+
@@ -157,7 +158,12 @@ public class REPORTE_FACTURA extends javax.swing.JInternalFrame {
                 }*/
                 int s = this.comboPago.getSelectedIndex();
                 if(s!=-1){
-                    sql+=" AND factura.id_pago='"+this.idpago.get(s)+"' \n ORDER BY factura.id_factura ASC;";
+                    if(this.comboPago.getSelectedIndex()==3){
+                        sql+="\n ORDER BY factura.id_factura ASC;";
+                    }else{
+                        sql+=" AND factura.id_pago='"+this.idpago.get(s)+"' \n ORDER BY factura.id_factura ASC;";
+                    }
+                    
                 }
                 
                 boolean nh=false;
@@ -187,7 +193,9 @@ public class REPORTE_FACTURA extends javax.swing.JInternalFrame {
                 }
                  int s2 = this.comboPago.getSelectedIndex();
                  if(s2!=-1){
-                     sql+=" AND factura.id_pago='"+this.idpago.get(this.comboPago.getSelectedIndex())+"';";
+                     if(this.comboPago.getSelectedIndex()!=3){
+                         sql+=" AND factura.id_pago='"+this.idpago.get(this.comboPago.getSelectedIndex())+"';";
+                     }
                  }
                  
                 ResultSet r = conect.CONSULTAR(sql);
@@ -285,10 +293,10 @@ public class REPORTE_FACTURA extends javax.swing.JInternalFrame {
         tiempoLayout.setHorizontalGroup(
             tiempoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tiempoLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addGroup(tiempoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1))
+                .addContainerGap()
+                .addGroup(tiempoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addGroup(tiempoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(f_Inicio, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -337,22 +345,17 @@ public class REPORTE_FACTURA extends javax.swing.JInternalFrame {
         resumenLayout.setHorizontalGroup(
             resumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(resumenLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(resumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(resumenLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(ST, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(resumenLayout.createSequentialGroup()
                         .addGroup(resumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(resumenLayout.createSequentialGroup()
-                                .addGap(16, 16, 16)
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, resumenLayout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(resumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel5))
-                                .addGap(25, 25, 25)))
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel7))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(resumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(IT, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(IVA, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -485,6 +488,8 @@ public class REPORTE_FACTURA extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        btnAnularF.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnAnularF.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/cancelar.png"))); // NOI18N
         btnAnularF.setText("Anular Factura");
         btnAnularF.setEnabled(false);
         btnAnularF.addActionListener(new java.awt.event.ActionListener() {
@@ -517,28 +522,26 @@ public class REPORTE_FACTURA extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(facturas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(tiempo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(26, 26, 26)
                         .addComponent(resumen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(comboPago, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnAnularF)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel4))
+                                .addGap(40, 40, 40)
+                                .addComponent(btnAnularF, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(jLabel6))
-                        .addGap(18, 18, Short.MAX_VALUE)
-                        .addComponent(comboShow, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)))
-                .addContainerGap())
+                        .addGap(40, 40, 40)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(comboShow, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -551,17 +554,16 @@ public class REPORTE_FACTURA extends javax.swing.JInternalFrame {
                 .addComponent(facturas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(comboPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnAnularF))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel4)
-                        .addComponent(comboShow, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel4))
+                .addGap(4, 4, 4)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comboPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAnularF)
+                    .addComponent(comboShow, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         pack();

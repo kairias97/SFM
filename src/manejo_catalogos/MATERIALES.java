@@ -98,15 +98,13 @@ public class MATERIALES extends javax.swing.JInternalFrame {
         saveTMAT = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tDatosTMAT = new javax.swing.JTable();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtDescripcionTMAT = new javax.swing.JTextArea();
         txtIDTMAT = new javax.swing.JTextField();
         activoTMAT = new javax.swing.JCheckBox();
-        jLabel4 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        txtDescripcionTMAT = new javax.swing.JTextField();
 
         setClosable(true);
         setTitle("CATALOGO DE MATERIALES");
@@ -114,6 +112,8 @@ public class MATERIALES extends javax.swing.JInternalFrame {
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/material.png"))); // NOI18N
         setMinimumSize(new java.awt.Dimension(570, 434));
 
+        showTMAT.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        showTMAT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/mostrar.png"))); // NOI18N
         showTMAT.setText("Mostrar todos");
         showTMAT.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -121,6 +121,8 @@ public class MATERIALES extends javax.swing.JInternalFrame {
             }
         });
 
+        deleteTMAT.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        deleteTMAT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/eliminar.png"))); // NOI18N
         deleteTMAT.setText("Eliminar");
         deleteTMAT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -128,6 +130,8 @@ public class MATERIALES extends javax.swing.JInternalFrame {
             }
         });
 
+        newTMAT.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        newTMAT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/agregar.png"))); // NOI18N
         newTMAT.setText("Nuevo");
         newTMAT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -135,6 +139,8 @@ public class MATERIALES extends javax.swing.JInternalFrame {
             }
         });
 
+        saveTMAT.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        saveTMAT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/guardar.png"))); // NOI18N
         saveTMAT.setText("Guardar");
         saveTMAT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -169,21 +175,12 @@ public class MATERIALES extends javax.swing.JInternalFrame {
         jScrollPane2.setViewportView(tDatosTMAT);
         if (tDatosTMAT.getColumnModel().getColumnCount() > 0) {
             tDatosTMAT.getColumnModel().getColumn(0).setResizable(false);
-            tDatosTMAT.getColumnModel().getColumn(0).setPreferredWidth(85);
+            tDatosTMAT.getColumnModel().getColumn(0).setPreferredWidth(80);
             tDatosTMAT.getColumnModel().getColumn(1).setResizable(false);
-            tDatosTMAT.getColumnModel().getColumn(1).setPreferredWidth(310);
+            tDatosTMAT.getColumnModel().getColumn(1).setPreferredWidth(205);
             tDatosTMAT.getColumnModel().getColumn(2).setResizable(false);
-            tDatosTMAT.getColumnModel().getColumn(2).setPreferredWidth(100);
+            tDatosTMAT.getColumnModel().getColumn(2).setPreferredWidth(85);
         }
-
-        txtDescripcionTMAT.setColumns(20);
-        txtDescripcionTMAT.setRows(5);
-        txtDescripcionTMAT.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtDescripcionTMATFocusLost(evt);
-            }
-        });
-        jScrollPane1.setViewportView(txtDescripcionTMAT);
 
         txtIDTMAT.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -191,15 +188,20 @@ public class MATERIALES extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel4.setText("Activo:");
+        activoTMAT.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        activoTMAT.setText("Activo");
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel3.setText("Descripción:");
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel2.setText("ID Tipo:");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Materiales de Muebles");
 
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/refrescar.png"))); // NOI18N
         jButton1.setText("Actualizar tabla");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -207,75 +209,68 @@ public class MATERIALES extends javax.swing.JInternalFrame {
             }
         });
 
+        txtDescripcionTMAT.setText(" ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(206, 206, 206)
-                        .addComponent(jLabel1))
+                        .addComponent(showTMAT, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(78, 78, 78)
+                        .addComponent(newTMAT, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(saveTMAT, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(deleteTMAT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addGap(10, 10, 10)
-                        .addComponent(txtIDTMAT, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(43, 43, 43)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(txtIDTMAT, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(58, 58, 58)
                         .addComponent(jLabel3)
-                        .addGap(10, 10, 10)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(82, 82, 82)
-                        .addComponent(jLabel4)
-                        .addGap(10, 10, 10)
-                        .addComponent(activoTMAT))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(newTMAT)
                         .addGap(18, 18, 18)
-                        .addComponent(saveTMAT)
-                        .addGap(18, 18, 18)
-                        .addComponent(deleteTMAT)
-                        .addGap(18, 18, 18)
-                        .addComponent(showTMAT, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(23, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(activoTMAT)
+                            .addComponent(txtDescripcionTMAT, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addGap(20, 20, 20)
                 .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtIDTMAT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtDescripcionTMAT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(activoTMAT)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(jLabel2))
-                    .addComponent(txtIDTMAT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(17, 17, 17)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(activoTMAT))
-                .addGap(7, 7, 7)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(newTMAT)
-                    .addComponent(saveTMAT)
-                    .addComponent(deleteTMAT)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(deleteTMAT)
+                        .addComponent(saveTMAT)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(showTMAT)
                     .addComponent(jButton1))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         pack();
@@ -377,14 +372,6 @@ public class MATERIALES extends javax.swing.JInternalFrame {
         }*/
     }//GEN-LAST:event_txtIDTMATFocusLost
 
-    private void txtDescripcionTMATFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDescripcionTMATFocusLost
-        // TODO add your handling code here:
-        /*if(this.txtDescripcionTMAT.getText().length() > 60){
-            JOptionPane.showMessageDialog(null, "La descripcion del material no puede exceder los 60 caracteres!");
-            this.txtDescripcionTMAT.requestFocus();
-        }*/
-    }//GEN-LAST:event_txtDescripcionTMATFocusLost
-
     private void tDatosTMATMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tDatosTMATMouseClicked
         // TODO add your handling code here:
         this.txtIDTMAT.setEditable(false);
@@ -409,14 +396,12 @@ public class MATERIALES extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton newTMAT;
     private javax.swing.JButton saveTMAT;
     private javax.swing.JButton showTMAT;
     private javax.swing.JTable tDatosTMAT;
-    private javax.swing.JTextArea txtDescripcionTMAT;
+    private javax.swing.JTextField txtDescripcionTMAT;
     private javax.swing.JTextField txtIDTMAT;
     // End of variables declaration//GEN-END:variables
 }

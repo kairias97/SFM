@@ -185,7 +185,7 @@ public class MENUSFM extends javax.swing.JFrame {
         btnAdd = new javax.swing.JButton();
         msgAU = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        comboAdmin = new javax.swing.JComboBox<>();
+        comboAdmin = new javax.swing.JComboBox<String>();
         borrarUser = new javax.swing.JDialog();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -196,7 +196,6 @@ public class MENUSFM extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         Clientes = new javax.swing.JMenuItem();
         tipoM = new javax.swing.JMenuItem();
@@ -237,6 +236,8 @@ public class MENUSFM extends javax.swing.JFrame {
             }
         });
 
+        btnCambio.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnCambio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/editUser.png"))); // NOI18N
         btnCambio.setText("Cambiar clave");
         btnCambio.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -262,25 +263,30 @@ public class MENUSFM extends javax.swing.JFrame {
         cambioClaveLayout.setHorizontalGroup(
             cambioClaveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(cambioClaveLayout.createSequentialGroup()
-                .addGap(32, 32, 32)
                 .addGroup(cambioClaveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(cambioClaveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(cambioClaveLayout.createSequentialGroup()
-                            .addGap(65, 65, 65)
-                            .addComponent(jLabel8))
-                        .addGroup(cambioClaveLayout.createSequentialGroup()
-                            .addGroup(cambioClaveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel10)
-                                .addComponent(jLabel9)
-                                .addComponent(jLabel11))
-                            .addGap(26, 26, 26)
-                            .addGroup(cambioClaveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtClaveNew)
-                                .addComponent(txtClaveNew2)
-                                .addComponent(txtClaveOld, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addComponent(msgCC, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(cambioClaveLayout.createSequentialGroup()
-                        .addGap(81, 81, 81)
+                        .addGap(97, 97, 97)
+                        .addComponent(jLabel8))
+                    .addGroup(cambioClaveLayout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addComponent(jLabel9)
+                        .addGap(26, 26, 26)
+                        .addComponent(txtClaveOld, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(cambioClaveLayout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addComponent(jLabel10)
+                        .addGap(26, 26, 26)
+                        .addComponent(txtClaveNew, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(cambioClaveLayout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addComponent(jLabel11)
+                        .addGap(26, 26, 26)
+                        .addComponent(txtClaveNew2, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(cambioClaveLayout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addComponent(msgCC, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(cambioClaveLayout.createSequentialGroup()
+                        .addGap(84, 84, 84)
                         .addComponent(btnCambio)))
                 .addContainerGap(36, Short.MAX_VALUE))
         );
@@ -290,22 +296,28 @@ public class MENUSFM extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addComponent(jLabel8)
                 .addGap(18, 18, 18)
-                .addGroup(cambioClaveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
+                .addGroup(cambioClaveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(cambioClaveLayout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel9))
                     .addComponent(txtClaveOld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(cambioClaveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
+                .addGap(11, 11, 11)
+                .addGroup(cambioClaveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(cambioClaveLayout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel10))
                     .addComponent(txtClaveNew, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(cambioClaveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
+                .addGap(11, 11, 11)
+                .addGroup(cambioClaveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(cambioClaveLayout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel11))
                     .addComponent(txtClaveNew2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addGap(10, 10, 10)
                 .addComponent(msgCC, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(btnCambio)
-                .addGap(28, 28, 28))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         agregarUser.setTitle("Opciones administrativas");
@@ -338,6 +350,8 @@ public class MENUSFM extends javax.swing.JFrame {
             }
         });
 
+        btnAdd.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/addUser.png"))); // NOI18N
         btnAdd.setText("Añadir Usuario");
         btnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -349,7 +363,7 @@ public class MENUSFM extends javax.swing.JFrame {
 
         jLabel7.setText("Administrador:");
 
-        comboAdmin.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NO", "SI" }));
+        comboAdmin.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "NO", "SI" }));
 
         javax.swing.GroupLayout agregarUserLayout = new javax.swing.GroupLayout(agregarUser.getContentPane());
         agregarUser.getContentPane().setLayout(agregarUserLayout);
@@ -357,9 +371,6 @@ public class MENUSFM extends javax.swing.JFrame {
             agregarUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(agregarUserLayout.createSequentialGroup()
                 .addGroup(agregarUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(agregarUserLayout.createSequentialGroup()
-                        .addGap(125, 125, 125)
-                        .addComponent(btnAdd))
                     .addGroup(agregarUserLayout.createSequentialGroup()
                         .addGap(29, 29, 29)
                         .addGroup(agregarUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -379,6 +390,10 @@ public class MENUSFM extends javax.swing.JFrame {
                                 .addComponent(txtClave1AU)
                                 .addComponent(txtClave2AU, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)))))
                 .addContainerGap(84, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, agregarUserLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnAdd)
+                .addGap(109, 109, 109))
         );
         agregarUserLayout.setVerticalGroup(
             agregarUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -405,7 +420,7 @@ public class MENUSFM extends javax.swing.JFrame {
                 .addComponent(msgAU, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnAdd)
-                .addGap(50, 50, 50))
+                .addGap(23, 23, 23))
         );
 
         borrarUser.setTitle("Opciones administrativas");
@@ -441,6 +456,7 @@ public class MENUSFM extends javax.swing.JFrame {
 
         msgBU.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
 
+        btnBorrarBU.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/removeUser.png"))); // NOI18N
         btnBorrarBU.setText("Eliminar");
         btnBorrarBU.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -455,37 +471,35 @@ public class MENUSFM extends javax.swing.JFrame {
             .addGroup(borrarUserLayout.createSequentialGroup()
                 .addGap(41, 41, 41)
                 .addGroup(borrarUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(borrarUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(msgBU, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(borrarUserLayout.createSequentialGroup()
-                            .addComponent(jLabel6)
-                            .addGap(18, 18, 18)
-                            .addComponent(txtUserBU, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(msgBU, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, borrarUserLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(borrarUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, borrarUserLayout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(15, 15, 15))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, borrarUserLayout.createSequentialGroup()
-                                .addComponent(btnBorrarBU)
-                                .addGap(45, 45, 45)))))
+                        .addComponent(jLabel6)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtUserBU, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(64, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, borrarUserLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnBorrarBU)
+                .addGap(108, 108, 108))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, borrarUserLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel5)
+                .addGap(78, 78, 78))
         );
         borrarUserLayout.setVerticalGroup(
             borrarUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, borrarUserLayout.createSequentialGroup()
-                .addContainerGap(26, Short.MAX_VALUE)
+                .addContainerGap(19, Short.MAX_VALUE)
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
-                .addGroup(borrarUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(txtUserBU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGroup(borrarUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtUserBU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(msgBU, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnBorrarBU)
-                .addGap(23, 23, 23))
+                .addContainerGap())
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -494,11 +508,15 @@ public class MENUSFM extends javax.swing.JFrame {
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setMinimumSize(new java.awt.Dimension(1280, 720));
 
-        desktopPane.setBackground(new java.awt.Color(0, 51, 153));
+        desktopPane.setBackground(new java.awt.Color(0, 0, 102));
         desktopPane.setForeground(new java.awt.Color(0, 51, 153));
 
+        jMenuBar1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+
+        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/file.png"))); // NOI18N
         jMenu1.setText("Archivo");
 
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/logOut.png"))); // NOI18N
         jMenuItem1.setText("Cerrar sesión");
         jMenuItem1.setToolTipText("");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -508,13 +526,12 @@ public class MENUSFM extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem1);
 
-        jMenuItem2.setText("Salir");
-        jMenu1.add(jMenuItem2);
-
         jMenuBar1.add(jMenu1);
 
+        jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/catalogo.png"))); // NOI18N
         jMenu2.setText("Catálogos");
 
+        Clientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/cliente.png"))); // NOI18N
         Clientes.setText("Clientes");
         Clientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -523,6 +540,7 @@ public class MENUSFM extends javax.swing.JFrame {
         });
         jMenu2.add(Clientes);
 
+        tipoM.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/mueble.png"))); // NOI18N
         tipoM.setText("Tipo de Muebles");
         tipoM.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -531,6 +549,7 @@ public class MENUSFM extends javax.swing.JFrame {
         });
         jMenu2.add(tipoM);
 
+        Materiales.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/material.png"))); // NOI18N
         Materiales.setText("Materiales");
         Materiales.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -539,6 +558,7 @@ public class MENUSFM extends javax.swing.JFrame {
         });
         jMenu2.add(Materiales);
 
+        Productos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/producto.png"))); // NOI18N
         Productos.setText("Productos");
         Productos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -552,8 +572,10 @@ public class MENUSFM extends javax.swing.JFrame {
         });
         jMenu2.add(Productos);
 
+        jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/facturacion.png"))); // NOI18N
         jMenu3.setText("Facturación");
 
+        Facturar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/factura.png"))); // NOI18N
         Facturar.setText("Nueva Factura");
         Facturar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -567,6 +589,7 @@ public class MENUSFM extends javax.swing.JFrame {
         });
         jMenu3.add(Facturar);
 
+        Reportes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/reporte.png"))); // NOI18N
         Reportes.setText("Reportes");
         Reportes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -579,8 +602,10 @@ public class MENUSFM extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu2);
 
+        cambioClaveM.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/settings.png"))); // NOI18N
         cambioClaveM.setText("Administración");
 
+        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/editUser.png"))); // NOI18N
         jMenuItem4.setText("Cambiar clave");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -589,6 +614,7 @@ public class MENUSFM extends javax.swing.JFrame {
         });
         cambioClaveM.add(jMenuItem4);
 
+        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/addUser.png"))); // NOI18N
         jMenuItem5.setText("Añadir nuevo usuario");
         jMenuItem5.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -602,6 +628,7 @@ public class MENUSFM extends javax.swing.JFrame {
         });
         cambioClaveM.add(jMenuItem5);
 
+        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/removeUser.png"))); // NOI18N
         jMenuItem6.setText("Eliminar usuario");
         jMenuItem6.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -615,6 +642,7 @@ public class MENUSFM extends javax.swing.JFrame {
         });
         cambioClaveM.add(jMenuItem6);
 
+        jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/backupDB.png"))); // NOI18N
         jMenuItem7.setText("Respaldar Base de Datos");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -635,7 +663,7 @@ public class MENUSFM extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 701, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 696, Short.MAX_VALUE)
         );
 
         pack();
@@ -643,7 +671,7 @@ public class MENUSFM extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
-        int salir = JOptionPane.showConfirmDialog(null, "Seguro que desea cerrar sesión?");
+        int salir = JOptionPane.showConfirmDialog(null, "Seguro que desea cerrar sesión?", "Cerrar Sesión", WIDTH);
         if(salir==0){//Si es 0 entonces quiere salir
             this.dispose();
             INICIOUSB i = new INICIOUSB();
@@ -669,6 +697,7 @@ public class MENUSFM extends javax.swing.JFrame {
             //Codigo para añadir nuevo usuario
             this.cambioClave.setLocationRelativeTo(null);
             //this.cambioClave.setSize(325, 250);
+            this.cambioClave.pack();
             this.cambioClave.setResizable(false);
             this.cambioClave.setVisible(true);
         } else{
@@ -686,6 +715,7 @@ public class MENUSFM extends javax.swing.JFrame {
             //Codigo para añadir nuevo usuario
             this.agregarUser.setLocationRelativeTo(null);
             //this.agregarUser.setSize(370, 290);
+            this.cambioClave.pack();
             this.agregarUser.setResizable(false);
             this.agregarUser.setVisible(true);
         } else{
@@ -703,6 +733,7 @@ public class MENUSFM extends javax.swing.JFrame {
             //Codigo para añadir nuevo usuario
             this.borrarUser.setLocationRelativeTo(null);
             //this.borrarUser.setSize(330, 210);
+            this.cambioClave.pack();
             this.borrarUser.setResizable(false);
             this.borrarUser.setVisible(true);
         } else{
@@ -941,7 +972,6 @@ public class MENUSFM extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
