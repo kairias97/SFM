@@ -134,7 +134,8 @@ public class LOGIN extends javax.swing.JFrame {
             ep=true;
         }
         if(!h && !ep){
-            JOptionPane.showMessageDialog(null, "Usuario o clave inválidos");
+            JOptionPane.showMessageDialog(null, "Usuario o clave inválidos!!");
+            this.txtClave.setText("");
         } else if(h && !ep){
             String clave = new String(this.txtClave.getPassword());
             u= new USER(this.txtUser.getText(), clave,dAdmin);
